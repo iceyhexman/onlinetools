@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				在线cms识别
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+            <form method="post" action="/whatcms" id="inputform">
+			<div class="input-group input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+				<div class="input-group-btn">
+					<button type="button" id="getwebdna" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>识别</b></button>
+				</div>
+			</div></form>
+		</div>
+    </div>
+    {% if data %}
+        {% if data.url %}
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>指纹总计</th>
+                                <th>网址</th>
+                                <th>识别结果</th>
+                                <th>用时</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{data.total}}</td>
+                            <td>{{data.url}}</td>
+                            <td>{{data.result}}</td>
+                            <td>{{data.time}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+        {% else %}
+        <div class="alert alert-danger error" role="alert">未识别成功</div>
+        {% endif %}
+    {% else %}
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="colo" class="panel panel-primary">
+                    <div class="panel-heading" id="ti">提示：</div>
+                        <div class="panel-body" id="re" style="word-wrap:break-word; word-break:break-all;display:block">
+						    由于指纹样本较多,部分CMS的识别可能会花费一些时间
+					    </div>
+                </div>
+			</div>
+    </div>
+    {% endif %}
+</div>
+<script>
+    $(document).ready(function() {
+	    $("#getwebdna").click(function() {
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: $('#url').val(),
+                dataType:'JSONP',
+                processData: false,
+                complete: function (data) {
+                    if (data.status==200) {
+                        $('#getwebdna').attr("disabled", true);
+                        $('#inputform').submit();
+                    } else {
+                        alert("链接无效,请检测你的url是否正确")
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

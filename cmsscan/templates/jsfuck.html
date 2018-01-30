@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+    <style type="text/css">
+    @import 'https://fonts.googleapis.com/css?family=Open+Sans:300';
+    body {
+        text-align: left;
+        font-family: Lato;
+        background: #f5f5f5;
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
+    }
+    h1 {
+        font-weight: 300;
+        font-size: 40px;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 20px 0;
+    }
+    input {
+    	margin: 0 auto;
+		position: relative;
+		vertical-align: top;
+		width: 150px;
+		height: 60px;
+		padding: 0;
+		font-size: 22px;
+		font-weight: 300;
+		color: white;
+		text-align: center;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+		background: #2980b9;
+		border: 0;
+		border-bottom: 2px solid #2475ab;
+		cursor: pointer;
+		-webkit-box-shadow: inset 0 -2px #2475ab;
+		box-shadow: inset 0 -2px #2475ab;
+    }
+    .maintex{width:900px;height:500px;position:absolute;top:50%;left:46%;margin-top:-250px;margin-left:-350px}
+    input:active {
+		top: 1px;
+		outline: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	 textarea {
+        display: block;
+        clear: both;
+        margin-bottom: 10px;
+        border-radius: 7px;
+        padding: 15px 10px;
+        font-size: 14px;
+        outline: none;
+        border: none;
+        background-color: #565555;
+        color: #fff;
+        -moz-transition: all 0.2s ease-in;
+        -o-transition: all 0.2s ease-in;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+
+    textarea:hover {
+        background-color: #567e98;
+        color: #f2f2f2;
+    }
+    textarea:focus {
+        background-color: #55555;
+        color: #fff;
+    }
+    </style>
+
+
+    <h1><font color="#337ab7">JSFuck解码</font></h1>
+<textarea placeholder="Paste your code here!" id="code" class="maintex"></textarea>
+<div>
+    <input type="submit" onclick="decode()" value="解码"/></div>
+
+<script type="text/javascript">
+    function decode() {
+        var code = document.querySelector('#code');
+        code.value = (/\n(.+)/.exec(eval(code.value.replace(/\s+/, "").slice(0, -2)))[1]);
+    }
+</script>
+
+{% endblock %}
