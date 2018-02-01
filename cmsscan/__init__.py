@@ -30,3 +30,9 @@ def whatcms():
 def jsfuck():
     return render_template('jsfuck.html', title='jsfuck解密')
 
+
+@app.route('/getdomain')
+def getdomin():
+    return render_template('getdomain.html', title='getdomain')
+
+

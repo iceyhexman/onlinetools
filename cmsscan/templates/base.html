@@ -5,7 +5,7 @@
     {% if title %}
     <title>{{title}} - online tools</title>
     {% else %}
-    <title>Hexman的工具箱</title>
+    <title>工具箱-</title>
     {% endif %}
     <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
     <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
@@ -22,12 +22,13 @@
 <div class="navbar navbar-default">
     <!-- 导航条标题-->
   　<div class="navbar-header">
-  　    <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-console" aria-hidden="true"></span>&nbsp;Hexman的工具箱</a>
+  　    <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-console" aria-hidden="true"></span>&nbsp;工具箱-</a>
   　</div>
   <!-- 基础导航条-->
   <ul class="nav navbar-nav">
       <li><a href="/whatcms">CMS识别</a></li>
-      <li><a href="jsfuck">JSFuck解密</a></li>
+      <li><a href="/jsfuck">JSFuck解密</a></li>
+      <li><a href="/getdomain">C段</a></li>
   </ul>
 </div>
 
@@ -40,7 +41,7 @@
 	<nav class="navbar navbar-default navbar-fixed-bottom">
 	<div>
 		<p class="navbar-text navbar-right" style="margin-right:30px;">
-			&copy; 2018- Hexman All Rights Reserved.
+			&copy; 2018- Hexman&Maxlv All Rights Reserved.
 		</p>
 	</div>
 	</nav>

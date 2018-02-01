@@ -1,20 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
     <style type="text/css">
-    @import 'https://fonts.googleapis.com/css?family=Open+Sans:300';
     body {
         text-align: left;
         font-family: Lato;
         background: #f5f5f5;
         font-family: 'Open Sans', sans-serif;
         text-align: center;
-    }
-    h1 {
-        font-weight: 300;
-        font-size: 40px;
-        text-transform: uppercase;
-        text-align: center;
-        margin: 20px 0;
     }
     input {
     	margin: 0 auto;
@@ -68,18 +60,19 @@
         color: #fff;
     }
     </style>
-
-
-    <h1><font color="#337ab7">JSFuck解码</font></h1>
+<h1><font color="#337ab7">JSFuck解码</font></h1>
 <textarea placeholder="Paste your code here!" id="code" class="maintex"></textarea>
-<div>
-    <input type="submit" onclick="decode()" value="解码"/></div>
-
+    <input type="submit" onclick="decode()" value="解码"/>
 <script type="text/javascript">
-    function decode() {
-        var code = document.querySelector('#code');
-        code.value = (/\n(.+)/.exec(eval(code.value.replace(/\s+/, "").slice(0, -2)))[1]);
-    }
+     function decode() {
+        var userAgent = navigator.userAgent;
+        if (userAgent.indexOf('Chrome') > -1){
+            var code = document.querySelector('#code');
+            code.value = (/\n(.+)/.exec(eval(code.value.replace(/\s+/, "").slice(0, -2)))[1]);
+        }else{
+            alert('请在谷歌浏览器下打开')
+        }
+     }
 </script>
 
 {% endblock %}
