@@ -23,7 +23,7 @@
             </div>
 		</div>
     </div>
-    <form action="saveapi" method="post" id="saveform">
+    <form action="/api/download" method="post" id="saveform">
         <input type="hidden" id="save" name="save">
     </form>
     <div class="row main-panel output">
@@ -66,7 +66,7 @@ function request(ip){
 
             for(var i in results){
                 add_res+="<tr><td>"+i+1+"</td><td>"+results[i].domain+"</td></tr>";
-                daochu+="{'domain':'"+results[i].domain+"'},"
+                daochu+=results[i].domain+"|"
                 $("#t_body").html(add_res);
             }
 

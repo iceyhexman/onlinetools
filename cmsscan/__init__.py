@@ -55,8 +55,8 @@ def query_c():
 # 文件下载
 @app.route('/api/download', methods=['POST'])
 def download_file():
-    content = request.get_data()
-    response = make_response(content)
+    content = request.form.get("save")
+    response = make_response(content.replace("|", "\n"))
     response.headers['Content-Disposition'] = 'attachment; filename=data.txt'
     return response
 
