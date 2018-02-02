@@ -15,7 +15,8 @@
                 <input type="hidden" id="ip" class="form-control" aria-label="..." name="ip">
                 <br>
                 <center>
-                <button type="button" id="pang" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>旁站</b></button>
+                    <button type="button" id="domain2ip" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>获取IP</b></button>
+                &nbsp;&nbsp;<button type="button" id="pang" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>旁站</b></button>
 			    &nbsp;&nbsp;<button type="button" id="cadd" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>C段</b></button>
                 &nbsp;&nbsp;<button type="button" id="daochu" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>导出</b></button>
                 </center>
@@ -23,9 +24,9 @@
 		</div>
     </div>
     <form action="saveapi" method="post" id="saveform">
-        <input type="hidden" id="save">
+        <input type="hidden" id="save" name="save">
     </form>
-    <div class="row main-panel">
+    <div class="row main-panel output">
         <div class="col-md-1"></div>
 			<div class="col-md-10">
 				<div id="color" class="panel panel-primary">
@@ -40,35 +41,44 @@
                             </tr>
                         </thead>
                     <tbody id="t_body">
-                        <tr>
-                            <td>$num</td>
-                            <td>$num</td>
-
-                        </tr>
+                    <!--output-->
                     </tbody>
                     </table>
+
                 </div>
             </div>
-    </div>
+    </div></div><br><br><br><br><br>
     <script type="text/javascript">
+    var url2ip="/api/domain2ip";
+    var query="/api/query";
+    var save="/api/download";
+    var url=$("#url").val();
+    var ip="";
+    var daochu="";
+    var thread="/api/thread";
+    add_res="";
 
 function request(ip){
-    $.post(query,{'ip':ip},function (results){
+    $.post(query,JSON.stringify([{"ip":ip}]),function (results){
         if(results){
             lengths=results.length;
-            add_res="<tr><td>"+ip+"</td></tr>";
+            add_res+="<tr><td>ip:  "+ip+"</td></tr>";
+
             for(var i in results){
-                add_res+="<tr><td>"+i+"</td><td>"+results[i].domain+"</td></tr>";
-                daochu+="{'domain':'"+result[i].domain+"'},"
+                add_res+="<tr><td>"+i+1+"</td><td>"+results[i].domain+"</td></tr>";
+                daochu+="{'domain':'"+results[i].domain+"'},"
+                $("#t_body").html(add_res);
             }
-            $("#t_body").html(add_res)
+
         }else{
-            add_res="<tr><td>结果为0</td></tr>";
+            add_res+="<tr><td>ip:"+ip+", 结果为 0</td></tr>";
+            $("#t_body").html(add_res);
         }
     },"json");
 }
 
 function urlcheck(url){
+        url=$("#url").val();
         if(url == "") {
             alert("请输入ip或者域名");
             return false;
@@ -79,48 +89,57 @@ function urlcheck(url){
 
 
 function furl2ip(url){
-    $.post(url2ip,{'domain':url},function(data){
-            return data.ip
+    $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
+            ip=data[0].ip
+            $("#result").html("结果：  "+ip)
         },"json");
 }
 
 
 $(function() {
-    var url2ip="/api/returnjson";
-    var query="someapi";
-    var save="anotherapi";
-    var url=$("#url").val();
-    var daochu="";
     $("#pang").click(function() {
-        if(urlcheck(url)){
-            request(furl2ip(url))
+        if(ip){
+            $("#result").html("结果：  "+ip)
+            request(ip)
+        }else{
+            alert("请先获取ip")
         }
     });
+
     $("#cadd").click(function() {
-        if(urlcheck(url)){
-            ip=furl2ip(url)
-            var arr = ip.split(".");
-            if(ip){
-                $("#result").html("结果：  "+ip)
-                for(var count=0;count<255;count++){
-                    var ips = arr[0] + "." + arr[1] + "." + arr[2] + "." + count;
-                    request(ips)
+        var arr = ip.split(".");
+        if(ip){
+            $("#result").html("结果：  "+ip)
+            $.post(thread,JSON.stringify([{"ip":ip}]),function(data){
+                if(data){
+                    for(var count=1;count<255;count++){
+                        var ips = arr[0] + "." + arr[1] + "." + arr[2] + "." + count;
+                        $("#result").html("获取：  "+ips)
+                        request(ips)
+                    }
                 }
-            }else{
-                $.messager.alert("提示","网络链接异常","error");
-            }
+            },"json");
+        }else{
+            alert("请先获取ip");
         }
     });
+
     $("#daochu").click(function(){
         daochu=daochu.substring(0,daochu.length-1);
         $("#save").val(daochu)
         $("#saveform").submit();
+    });
 
+    $("#domain2ip").click(function(){
+        if(urlcheck(url)){
+            furl2ip(url)
+        }
     });
 });
 
 
+
 </script>
 
-</div>
+
 {% endblock %}
