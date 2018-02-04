@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+    <div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				信息泄露检测
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-lg-12">
+            <form method="post" action="/information" id="inputform">
+			<div class="input-group input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+				<div class="input-group-btn">
+					<button type="button" id="getwebdna" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
+				</div>
+			</div></form>
+		</div>
+    </div>
+    <div class="row main-panel output">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>网址</th>
+                            </tr>
+                        </thead>
+                    <tbody id="t_body">
+                    <!--output-->
+                    </tbody>
+                    </table>
+
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+{% endblock %}

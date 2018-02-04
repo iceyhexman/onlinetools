@@ -41,10 +41,24 @@ def jsfuck():
 
 @app.route('/getdomain')
 def getdomin():
-    return render_template('getdomain.html', title='getdomain')
+    return render_template('getdomain.html', title='旁站/C段')
 
 
-#查询
+@app.route('/information')
+def information_scan():
+    return render_template('information.html', title='信息泄露')
+
+
+'''
+
+
+api定义段
+
+
+'''
+
+
+# 查询
 @app.route('/api/query', methods=['post'])
 def query_c():
     post_json = getjson()
@@ -78,3 +92,6 @@ def thread_start():
     return thread_json_raw.content
 
 
+@app.route('/api/information', methods=['post'])
+def information_test():
+    return "some"

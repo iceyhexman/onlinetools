@@ -47,15 +47,16 @@
 
                 </div>
             </div>
-    </div></div><br><br><br><br><br>
+    </div>
+</div><br><br><br><br><br>
     <script type="text/javascript">
     var url2ip="/api/domain2ip";
     var query="/api/query";
     var save="/api/download";
-    var url=$("#url").val();
+    var thread="/api/thread";
+    var url="";
     var ip="";
     var daochu="";
-    var thread="/api/thread";
     add_res="";
 
 function request(ip){
@@ -65,7 +66,7 @@ function request(ip){
             add_res+="<tr><td>ip:  "+ip+"</td></tr>";
 
             for(var i in results){
-                add_res+="<tr><td>"+i+1+"</td><td>"+results[i].domain+"</td></tr>";
+                add_res+="<tr><td>"+i+"</td><td>"+results[i].domain+"</td></tr>";
                 daochu+=results[i].domain+"|"
                 $("#t_body").html(add_res);
             }
@@ -131,6 +132,8 @@ $(function() {
     });
 
     $("#domain2ip").click(function(){
+        add_res="";
+        var url=$("#url").val();
         if(urlcheck(url)){
             furl2ip(url)
         }
