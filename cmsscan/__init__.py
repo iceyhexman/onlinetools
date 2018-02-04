@@ -5,6 +5,7 @@ import re
 import requests
 import json
 import socket
+from .model.information.informationmain import *
 
 app = Flask(__name__)
 
