@@ -9,7 +9,8 @@ description: 网站存在JetBrains系列IDE的工作区文件，可以泄露整�
 import sys
 import requests
 import warnings
-from termcolor import cprint
+
+
 
 class jetbrains_ide_workspace_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,10 +25,11 @@ class jetbrains_ide_workspace_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"<?xml version=" in req.text and r"project version" in req.text and req.status_code==200:
-                cprint("[+]存在JetBrains IDE workspace.xml文件泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
-
+                return "[+]存在JetBrains IDE workspace.xml文件泄露漏洞...(中危)\tpayload: "+vulnurl
+            else:
+                return "[-]NO vuln!"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

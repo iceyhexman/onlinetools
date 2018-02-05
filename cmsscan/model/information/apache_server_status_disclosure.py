@@ -9,7 +9,7 @@ description: apache的状态信息文件泄露。
 import sys
 import requests
 import warnings
-from termcolor import cprint
+
 
 class apache_server_status_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,10 +24,12 @@ class apache_server_status_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Server uptime" in req.text and r"Server Status" in req.text and req.status_code==200:
-                cprint("[+]存在git源码泄露漏洞...(低危)\tpayload: "+vulnurl, "green")
+                return "[+]存在git源码泄露漏洞...(低危)\tpayload: "+vulnurl
+            else:
+                return "[-]NO vuln!"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

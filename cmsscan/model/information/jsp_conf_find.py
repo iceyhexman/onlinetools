@@ -9,7 +9,7 @@ description: web.xml是java框架使用的配置文件，可以获取敏感信�
 import sys
 import requests
 import warnings
-from termcolor import cprint
+
 
 class jsp_conf_find_BaseVerify:
     def __init__(self, url):
@@ -21,10 +21,11 @@ class jsp_conf_find_BaseVerify:
         try:
             req = requests.get(vulnurl, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在web.xml配置文件...(敏感信息)\tpayload: "+vulnurl, "green")
-
+                return "[+]存在web.xml配置文件...(敏感信息)\tpayload: "+vulnurl
+            else:
+                return "[-]NO vuln!"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

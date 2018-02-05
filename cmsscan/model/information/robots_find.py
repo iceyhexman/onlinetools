@@ -9,7 +9,7 @@ description: robots.txt是爬虫标准文件，可从文件里找到屏蔽了哪
 import sys
 import requests
 import warnings
-from termcolor import cprint
+
 
 class robots_find_BaseVerify:
     def __init__(self, url):
@@ -22,9 +22,11 @@ class robots_find_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if "Disallow" in req.text:
-                cprint("[+]存在robots.txt爬虫文件...(敏感信息)"+"\tpayload: "+vulnurl, "green")
+                return "[+]存在robots.txt爬虫文件...(敏感信息)"+"\tpayload: "+vulnurl
+            else:
+                return "[-]NO vuln!"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

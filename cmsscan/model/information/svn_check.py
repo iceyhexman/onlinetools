@@ -10,7 +10,7 @@ import re
 import sys
 import requests
 import warnings
-from termcolor import cprint
+
 
 class svn_check_BaseVerify:
     def __init__(self, url):
@@ -30,13 +30,12 @@ class svn_check_BaseVerify:
                 for content in contents:
                     match = len(pattern.search(content).group(0))
                     if req.status_code == 200 and match > 0:
-                        cprint("[+]存在svn源码泄露漏洞...(高危)\tpayload: "+vulnurl, "red")
-                        break
+                        return "[+]存在svn源码泄露漏洞...(高危)\tpayload: "+vulnurl
+                return "[-]NO VULN"
             except:
-                pass
-
+                return "[-]err"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")

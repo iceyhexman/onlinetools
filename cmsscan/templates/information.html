@@ -10,39 +10,84 @@
 	</div>
     <div class="row">
 		<div class="col-lg-12">
-            <form method="post" action="/information" id="inputform">
+
 			<div class="input-group input-group-lg">
 				<input type="text" id="url" class="form-control" aria-label="..." name="url">
 				<div class="input-group-btn">
-					<button type="button" id="getwebdna" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
+					<button type="button" id="information" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
 				</div>
-			</div></form>
+			</div>
 		</div>
     </div>
-    <div class="row main-panel output">
+    <div class="row main-panel">
         <div class="col-md-1"></div>
 			<div class="col-md-10">
 				<div id="color" class="panel panel-primary">
+
 					<div class="panel-heading" id="result">
 						结果：
 					</div>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>网址</th>
-                            </tr>
-                        </thead>
-                    <tbody id="t_body">
-                    <!--output-->
-                    </tbody>
-                    </table>
-
                 </div>
             </div>
     </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
+    var informationapi="/api/information";
+    var url="";
+    informationpocdict = [
+            "options方法开启",
+            "git源码泄露",
+            "java配置文件文件发现",
+            "robots文件发现",
+            "svn源码泄露",
+            "JetBrains IDE workspace.xml文件泄露",
+            "apache server-status信息泄露",
+            "crossdomain.xml文件发现"
+    ]
 
+function request(url,type){
+    $.post(informationapi,JSON.stringify({"url":url,"type":type}),function (results){
+    	if(results.status){
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		informationpocdict[type]+'</span></li><li class="list-group-item"><span class="text-success">'+
+    		results.pocresult+'</span></li>')
+    	}else{
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		informationpocdict[type]+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
+    		informationpocdict[type]+'</span></li>')
+    	}
+    },"json");
+}
+
+function urlcheck(){
+        url=$('#url').val();
+        if(url == '') {
+            alert('请输入域名');
+            return false;
+        }else{
+            return true;
+        }
+}
+
+$(function() {
+    $('#information').click(function() {
+        if(urlcheck()){
+        	poclist='<div class="panel-heading" id="result">结果：</div>'
+        	for(var i=0;i<informationpocdict.length;i++){
+        		poclist+='<ul class="list-group" id="poc_'+i+'"><li class="list-group-item"><span class="text-primary">正在检测========>'+
+        		informationpocdict[i]+'</span></li></ul>'
+        		$('#color').html(poclist)
+        		request(url,i)
+        	}
+        }
+    });
+});
 </script>
 {% endblock %}

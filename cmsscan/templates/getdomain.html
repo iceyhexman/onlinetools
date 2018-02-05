@@ -48,6 +48,13 @@
                 </div>
             </div>
     </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
 </div><br><br><br><br><br>
     <script type="text/javascript">
     var url2ip="/api/domain2ip";
@@ -78,7 +85,7 @@ function request(ip){
     },"json");
 }
 
-function urlcheck(url){
+function urlcheck(){
         url=$("#url").val();
         if(url == "") {
             alert("请输入ip或者域名");
@@ -134,7 +141,7 @@ $(function() {
     $("#domain2ip").click(function(){
         add_res="";
         var url=$("#url").val();
-        if(urlcheck(url)){
+        if(urlcheck()){
             furl2ip(url)
         }
     });

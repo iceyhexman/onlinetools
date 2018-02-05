@@ -86,7 +86,7 @@ def return_json():
 
 
 # thread_start
-@app.route('/api/thread',methods=['post'])
+@app.route('/api/thread', methods=['post'])
 def thread_start():
     thread_ip = getjson()
     thread_json_raw = requests.get('http://webscan.cc/thread.php?ip=%s' % thread_ip[0]['ip'])
@@ -94,5 +94,28 @@ def thread_start():
 
 
 @app.route('/api/information', methods=['post'])
-def information_test():
-    return "some"
+def information_api():
+    information_load = getjson()
+    information_url = information_load['url']
+    information_type = information_load['type']
+    information_poc=[options_method_BaseVerify,
+                     git_check_BaseVerify,
+                     jsp_conf_find_BaseVerify,
+                     robots_find_BaseVerify,
+                     svn_check_BaseVerify,
+                     jetbrains_ide_workspace_disclosure_BaseVerify,
+                     apache_server_status_disclosure_BaseVerify,
+                     crossdomain_find_BaseVerify]
+
+    information_poc_result=information_poc[information_type](information_url).run()
+
+    if "[+]" in information_poc_result:
+        information_poc_status=1
+    else:
+        information_poc_status=0
+    return jsonify({"status":information_poc_status, "pocresult":information_poc_result})
+
+
+
+
+
