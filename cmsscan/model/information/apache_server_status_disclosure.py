@@ -8,7 +8,6 @@ description: apache的状态信息文件泄露。
 '''
 import sys
 import requests
-import warnings
 
 
 class apache_server_status_disclosure_BaseVerify:
@@ -32,6 +31,5 @@ class apache_server_status_disclosure_BaseVerify:
             return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = apache_server_status_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

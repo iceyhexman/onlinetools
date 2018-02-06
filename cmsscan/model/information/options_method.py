@@ -8,7 +8,6 @@ description: robots.txt是爬虫标准文件，可从文件里找到屏蔽了哪
 '''
 import sys
 import requests
-import warnings
 
 
 class options_method_BaseVerify:
@@ -31,6 +30,5 @@ class options_method_BaseVerify:
             return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = options_method_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,6 @@ description: 网站存在JetBrains系列IDE的工作区文件，可以泄露整�
 '''
 import sys
 import requests
-import warnings
-
 
 
 class jetbrains_ide_workspace_disclosure_BaseVerify:
@@ -32,6 +30,5 @@ class jetbrains_ide_workspace_disclosure_BaseVerify:
             return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = jetbrains_ide_workspace_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

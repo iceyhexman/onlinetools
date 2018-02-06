@@ -6,6 +6,7 @@ import requests
 import json
 import socket
 from .model.information.informationmain import *
+from .model.industrial.industrialmain import *
 
 app = Flask(__name__)
 
@@ -48,6 +49,16 @@ def getdomin():
 @app.route('/information')
 def information_scan():
     return render_template('information.html', title='信息泄露')
+
+
+@app.route('/industrial')
+def industrial_scan():
+    return render_template('industrial.html', title='工控安全')
+
+
+@app.route('/py2img')
+def py2img():
+    return render_template('py2img.html', title='python转图像')
 
 
 '''
@@ -93,29 +104,46 @@ def thread_start():
     return thread_json_raw.content
 
 
+# 信息泄露
 @app.route('/api/information', methods=['post'])
 def information_api():
     information_load = getjson()
     information_url = information_load['url']
     information_type = information_load['type']
-    information_poc=[options_method_BaseVerify,
-                     git_check_BaseVerify,
-                     jsp_conf_find_BaseVerify,
-                     robots_find_BaseVerify,
-                     svn_check_BaseVerify,
-                     jetbrains_ide_workspace_disclosure_BaseVerify,
-                     apache_server_status_disclosure_BaseVerify,
-                     crossdomain_find_BaseVerify]
+    information_poc = [options_method_BaseVerify,
+                       git_check_BaseVerify,
+                       jsp_conf_find_BaseVerify,
+                       robots_find_BaseVerify,
+                       svn_check_BaseVerify,
+                       jetbrains_ide_workspace_disclosure_BaseVerify,
+                       apache_server_status_disclosure_BaseVerify,
+                       crossdomain_find_BaseVerify]
 
-    information_poc_result=information_poc[information_type](information_url).run()
-
+    information_poc_result = information_poc[information_type](information_url).run()
     if "[+]" in information_poc_result:
-        information_poc_status=1
+        information_poc_status = 1
     else:
-        information_poc_status=0
-    return jsonify({"status":information_poc_status, "pocresult":information_poc_result})
+        information_poc_status = 0
+    return jsonify({"status": information_poc_status, "pocresult": information_poc_result})
 
 
-
-
-
+# 工控安全
+@app.route('/api/industrial', methods=['post'])
+def industrial_api():
+    industrial_load = getjson()
+    industrial_url = industrial_load['url']
+    industrial_type = industrial_load['type']
+    industrial_poc =[wireless_monitor_priv_elevation_BaseVerify,
+                     rockontrol_weak_BaseVerify,
+                     sgc8000_sg8k_sms_disclosure_BaseVerify,
+                     sgc8000_deldata_config_disclosure_BaseVerify,
+                     sgc8000_defaultuser_disclosure_BaseVerify,
+                     zte_wireless_getChannelByCountryCode_sqli_BaseVerify,
+                     zte_wireless_weak_pass_BaseVerify,
+                     dfe_scada_conf_disclosure_BaseVerify]
+    industrial_poc_result = industrial_poc[industrial_type](industrial_url).run()
+    if "[+]" in industrial_poc_result:
+        industrial_poc_status = 1
+    else:
+        industrial_poc_status = 0
+    return jsonify({"status": industrial_poc_status, "pocresult": industrial_poc_result})

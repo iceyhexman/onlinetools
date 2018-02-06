@@ -8,7 +8,6 @@ description: web.xml是java框架使用的配置文件，可以获取敏感信�
 '''
 import sys
 import requests
-import warnings
 
 
 class jsp_conf_find_BaseVerify:
@@ -28,6 +27,5 @@ class jsp_conf_find_BaseVerify:
             return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = jsp_conf_find_BaseVerify(sys.argv[1])
     testVuln.run()

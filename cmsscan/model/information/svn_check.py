@@ -9,7 +9,6 @@ description: 忘记了删除.svn目录而导致的漏洞。
 import re
 import sys
 import requests
-import warnings
 
 
 class svn_check_BaseVerify:
@@ -38,6 +37,5 @@ class svn_check_BaseVerify:
             return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = svn_check_BaseVerify(sys.argv[1])
     testVuln.run()
