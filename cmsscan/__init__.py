@@ -7,6 +7,7 @@ import json
 import socket
 from .model.information.informationmain import *
 from .model.industrial.industrialmain import *
+from .model.hardware.hardwaremain import *
 
 app = Flask(__name__)
 
@@ -54,6 +55,11 @@ def information_scan():
 @app.route('/industrial')
 def industrial_scan():
     return render_template('industrial.html', title='工控安全')
+
+
+@app.route('/hardware')
+def hardware_scan():
+    return render_template('hardware.html', title='物联网安全')
 
 
 @app.route('/py2img')
@@ -147,3 +153,32 @@ def industrial_api():
     else:
         industrial_poc_status = 0
     return jsonify({"status": industrial_poc_status, "pocresult": industrial_poc_result})
+
+
+# 物联网安全
+@app.route('/api/hardware', methods=['post'])
+def hardware_api():
+    hardware_load = getjson()
+    hardware_url = hardware_load['url']
+    hardware_type = hardware_load['type']
+    hardware_poc = [router_dlink_webproc_fileread_BaseVerify,
+                    router_dlink_command_exec_BaseVerify,
+                    router_ruijie_unauth_BaseVerify,
+                    adtsec_gateway_struts_exec_BaseVerify,
+                    adtsec_Overall_app_js_bypass_BaseVerify,
+                    mpsec_weakpass_exec_BaseVerify,
+                    mpsec_webui_filedownload_BaseVerify,
+                    camera_uniview_dvr_rce_BaseVerify,
+                    printer_xerox_default_pwd_BaseVerify,
+                    printer_hp_jetdirect_unauth_BaseVerify,
+                    printer_topaccess_unauth_BaseVerify,
+                    printer_canon_unauth_BaseVerify,
+                    juniper_netscreen_backdoor_BaseVerify,
+                    camera_hikvision_web_weak_BaseVerify]
+    hardware_poc_result = hardware_poc[hardware_type](hardware_url).run()
+    if "[+]" in hardware_poc_result:
+        hardware_poc_status = 1
+    else:
+        hardware_poc_status = 0
+    return jsonify({"status": hardware_poc_status, "pocresult": hardware_poc_result})
+

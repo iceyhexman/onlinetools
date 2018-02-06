@@ -5,7 +5,7 @@
     {% if title %}
     <title>{{title}} - online tools</title>
     {% else %}
-    <title>工具箱-</title>
+    <title>Hexman的工具箱</title>
     {% endif %}
     <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
     <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
@@ -37,7 +37,8 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="#">CMS</a></li>
-                    <li><a href="#">系统</a></li>
+                    <li><a href="#">系统漏洞</a></li>
+                    <li><a href="/hardware">物联网安全</a></li>
                     <li><a href="/information">信息泄露</a></li>
                     <li><a href="/industrial">工控安全</a></li>
                     <li class="divider"></li>

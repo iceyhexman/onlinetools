@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+    <div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				物联网设备安全检测
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="input-group input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+				<div class="input-group-btn">
+					<button type="button" id="hardware" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    var hardwareapi="/api/hardware";
+    var url="";
+    hardwarepocdict = [
+            "Dlink 本地文件包含",
+"Dlink DIAGNOSTIC.PHP命令执行",
+"锐捷VPN设备未授权访问漏洞",
+"上海安达通某网关产品&某VPN产品struts命令执行",
+"SJW74系列安全网关 和 PN-2G安全网关信息泄露",
+"迈普vpn安全网关弱口令&&执行命令",
+"迈普网关webui任意文件下载",
+"浙江宇视（DVR/NCR）监控设备远程命令执行漏洞",
+"富士施乐打印机默认口令漏洞",
+"惠普打印机telnet未授权访问",
+"东芝topaccess打印机未授权漏洞",
+"佳能打印机未授权漏洞",
+"juniper NetScreen防火墙后门(CVE-2015-7755)",
+"海康威视web弱口令"]
+
+function request(url,type){
+    $.post(hardwareapi,JSON.stringify({"url":url,"type":type}),function (results){
+    	if(results.status){
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		hardwarepocdict[type]+'</span></li><li class="list-group-item"><span class="text-success">'+
+    		results.pocresult+'</span></li>')
+    	}else{
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		hardwarepocdict[type]+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
+    		hardwarepocdict[type]+'</span></li>')
+    	}
+    },"json");
+}
+
+function urlcheck(){
+        url=$('#url').val();
+        if(url == '') {
+            alert('请输入域名');
+            return false;
+        }else{
+            return true;
+        }
+}
+
+$(function() {
+    $('#hardware').click(function() {
+        if(urlcheck()){
+        	poclist='<div class="panel-heading" id="result">结果：</div>'
+        	for(var i=0;i<hardwarepocdict.length;i++){
+        		poclist+='<ul class="list-group" id="poc_'+i+'"><li class="list-group-item"><span class="text-primary">正在检测========>'+
+        		hardwarepocdict[i]+'</span></li></ul>'
+        		$('#color').html(poclist)
+        		request(url,i)
+        	}
+        }
+    });
+});
+</script>
+{% endblock %}
