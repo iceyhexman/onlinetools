@@ -8,6 +8,7 @@ import socket
 from .model.information.informationmain import *
 from .model.industrial.industrialmain import *
 from .model.hardware.hardwaremain import *
+from .model.system.systemmain import *
 
 app = Flask(__name__)
 
@@ -61,6 +62,10 @@ def industrial_scan():
 def hardware_scan():
     return render_template('hardware.html', title='物联网安全')
 
+@app.route('/system')
+def system_scan():
+    return render_template('system.html',title='system安全')
+
 
 @app.route('/py2img')
 def py2img():
@@ -76,7 +81,7 @@ api定义段
 '''
 
 
-# 查询
+# webscan.cc结果查询
 @app.route('/api/query', methods=['post'])
 def query_c():
     post_json = getjson()
@@ -84,7 +89,7 @@ def query_c():
     return request_json_raw.content
 
 
-# 文件下载
+# 结果下载
 @app.route('/api/download', methods=['POST'])
 def download_file():
     content = request.form.get("save")
@@ -181,4 +186,56 @@ def hardware_api():
     else:
         hardware_poc_status = 0
     return jsonify({"status": hardware_poc_status, "pocresult": hardware_poc_result})
+
+
+# system安全
+@app.route('/api/system', methods=['post'])
+def system_api():
+    system_load = getjson()
+    system_url = system_load['url']
+    system_type = system_load['type']
+    system_poc = [couchdb_unauth_BaseVerify,
+                  zookeeper_unauth_BaseVerify,
+                  goahead_LD_PRELOAD_rce_BaseVerify,
+                  topsec_change_lan_filedownload_BaseVerify,
+                  tomcat_put_exec_BaseVerify,
+                  redis_unauth_BaseVerify,
+                  kinggate_zebra_conf_BaseVerify,
+                  multi_fastcgi_code_exec_BaseVerify,
+                  turbomail_conf_BaseVerify,
+                  turbogate_services_xxe_BaseVerify,
+                  weblogic_ssrf_BaseVerify,
+                  weblogic_xmldecoder_exec_BaseVerify,
+                  weblogic_interface_disclosure_BaseVerify,
+                  forease_fileinclude_code_exec_BaseVerify,
+                  hudson_ws_disclosure_BaseVerify,
+                  npoint_mdb_download_BaseVerify,
+                  zkeys_database_conf_BaseVerify,
+                  hac_gateway_info_disclosure_BaseVerify,
+                  moxa_oncell_telnet_BaseVerify,
+                  glassfish_fileread_BaseVerify,
+                  zabbix_jsrpc_profileIdx2_sqli_BaseVerify,
+                  php_fastcgi_read_BaseVerify,
+                  php_expose_disclosure_BaseVerify,
+                  hfs_rejetto_search_rce_BaseVerify,
+                  shellshock_BaseVerify,
+                  dorado_default_passwd_BaseVerify,
+                  iis_ms15034_httpsys_rce_BaseVerify,
+                  iis_webdav_rce_BaseVerify,
+                  srun_index_file_filedownload_BaseVerify,
+                  srun_rad_online_bypass_rce_BaseVerify,
+                  srun_rad_online_username_rce_BaseVerify,
+                  srun_download_file_filedownload_BaseVerify,
+                  srun_user_info_uid_rce_BaseVerify,
+                  intel_amt_crypt_bypass_BaseVerify,
+                  smtp_starttls_plaintext_inj_BaseVerify,
+                  resin_viewfile_fileread_BaseVerify,
+                  mongodb_unauth_BaseVerify,
+                  sangfor_ad_script_command_exec_BaseVerify,]
+    system_poc_result = system_poc[system_type](system_url).run()
+    if "[+]" in system_poc_result:
+        system_poc_status = 1
+    else:
+        system_poc_status = 0
+    return jsonify({"status": system_poc_status, "pocresult": system_poc_result})
 
