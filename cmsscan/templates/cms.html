@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+    <div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				CMS安全检测
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-lg-12">
+
+			<div class="input-group input-group-lg">
+				<input type="text" id="keyword" class="form-control" aria-label="..." name="keyword">
+				<div class="input-group-btn">
+					<button type="button" id="search" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>搜索</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <br><br><br>
+    <div class="row">
+		<div class="col-lg-12">
+
+			<div class="input-group input-group-lg">
+				<input type="text" id="url" class="form-control" aria-label="..." name="url">
+				<div class="input-group-btn">
+					<button type="button" id="industrial" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="color" class="panel panel-primary">
+
+					<div class="panel-heading" id="result">
+						结果：
+					</div>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    var industrialapi="/api/industrial";
+    var url="";
+    industrialpocdict = [
+            "新力热电无线抄表监控系统绕过后台登录",
+"火力发电能耗监测弱口令",
+"sgc8000 大型旋转机监控系统报警短信模块泄露",
+"sgc8000 监控系统数据连接信息泄露",
+"sgc8000监控系统超管账号泄露漏洞",
+"zte 无线控制器 SQL注入",
+"中兴无线控制器弱口令",
+"东方电子SCADA通用系统信息泄露",
+    ]
+
+function request(url,type){
+    $.post(industrialapi,JSON.stringify({"url":url,"type":type}),function (results){
+    	if(results.status){
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		industrialpocdict[type]+'</span></li><li class="list-group-item"><span class="text-success">'+
+    		results.pocresult+'</span></li>')
+    	}else{
+    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		industrialpocdict[type]+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
+    		industrialpocdict[type]+'</span></li>')
+    	}
+    },"json");
+}
+
+function urlcheck(){
+        url=$('#url').val();
+        if(url == '') {
+            alert('请输入域名');
+            return false;
+        }else{
+            return true;
+        }
+}
+
+$(function() {
+    $('#industrial').click(function() {
+        if(urlcheck()){
+        	poclist='<div class="panel-heading" id="result">结果：</div>'
+        	for(var i=0;i<industrialpocdict.length;i++){
+        		poclist+='<ul class="list-group" id="poc_'+i+'"><li class="list-group-item"><span class="text-primary">正在检测========>'+
+        		industrialpocdict[i]+'</span></li></ul>'
+        		$('#color').html(poclist)
+        		request(url,i)
+        	}
+        }
+    });
+});
+</script>
+{% endblock %}

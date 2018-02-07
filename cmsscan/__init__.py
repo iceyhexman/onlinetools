@@ -66,6 +66,10 @@ def hardware_scan():
 def system_scan():
     return render_template('system.html',title='system安全')
 
+@app.route('/cms')
+def cms_scan():
+    return render_template('cms.html', title='cms安全检测')
+
 
 @app.route('/py2img')
 def py2img():
@@ -238,4 +242,17 @@ def system_api():
     else:
         system_poc_status = 0
     return jsonify({"status": system_poc_status, "pocresult": system_poc_result})
+
+
+@app.route('/api/system',methods=['post'])
+def cms_api():
+    pass
+
+
+@app.route('/api/search', methods=['post'])
+def search():
+    pass
+
+
+
 
