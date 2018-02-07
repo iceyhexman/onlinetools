@@ -8,8 +8,8 @@ description: 多处未授权访问。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class xuezi_ceping_unauth_BaseVerify:
     def __init__(self, url):
@@ -45,12 +45,12 @@ class xuezi_ceping_unauth_BaseVerify:
             try:
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if verify in req.text:
-                    cprint("[+]存在学子科技诊断测评系统未授权访问漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在学子科技诊断测评系统未授权访问漏洞...(高危)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = xuezi_ceping_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

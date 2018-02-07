@@ -12,8 +12,8 @@ import json
 import hashlib
 import datetime
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_infogate_xxe_BaseVerify:
     def __init__(self, url):
@@ -35,12 +35,12 @@ class trs_infogate_xxe_BaseVerify:
             time.sleep(6)
             reqr = requests.get(eye_url, headers=headers, timeout=10, verify=False)
             if md5_str in reqr.text:
-                cprint("[+]存在trs infogate插件 XML实体注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在trs infogate插件 XML实体注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_infogate_xxe_BaseVerify(sys.argv[1])
     testVuln.run()

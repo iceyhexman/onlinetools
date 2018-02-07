@@ -8,8 +8,8 @@ description: download_templet.jsp参数type存在任意文件下载,下载文件
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_was5_download_templet_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_was5_download_templet_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"x-zip-compressed" in req.headers["Content-Type"]:
-                cprint("[+]存在TRS was5 download_templet.jsp任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在TRS was5 download_templet.jsp任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_was5_download_templet_BaseVerify(sys.argv[1])
     testVuln.run()

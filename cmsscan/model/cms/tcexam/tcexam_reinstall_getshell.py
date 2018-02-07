@@ -8,8 +8,8 @@ description: /install/install.php文件可以重新安装,在任意输入框中�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class tcexam_reinstall_getshell_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class tcexam_reinstall_getshell_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code==200 and r"db_user" in req.text and r"db_password" in req.text:
-                cprint("[+]存在TCExam重新安装可getshell漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在TCExam重新安装可getshell漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = tcexam_reinstall_getshell_BaseVerify(sys.argv[1])
     testVuln.run()

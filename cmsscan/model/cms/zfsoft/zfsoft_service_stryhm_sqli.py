@@ -10,8 +10,8 @@ import re
 import os
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class zfsoft_service_stryhm_sqli_BaseVerify:
     def __init__(self, url):
@@ -40,12 +40,12 @@ class zfsoft_service_stryhm_sqli_BaseVerify:
             res_true = int(match1.group(0).replace('<BMCheckPasswordResult xsi:type="xsd:int">', '').replace('</BMCheckPasswordResult>',''))
             res_false = int(match2.group(0).replace('<BMCheckPasswordResult xsi:type="xsd:int">', '').replace('</BMCheckPasswordResult>',''))
             if res_true!=res_false:
-                cprint("[+]存在正方教务系统services.asmx SQL注入漏洞...(高危)\tpayload: "+vulnurl+"..[需要对比查看xml文件内容]", "red")
+                return "[+]存在正方教务系统services.asmx SQL注入漏洞...(高危)\tpayload: "+vulnurl+"..[需要对比查看xml文件内容]"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = zfsoft_service_stryhm_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

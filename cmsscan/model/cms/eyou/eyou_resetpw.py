@@ -8,8 +8,8 @@ description: 亿邮邮件系统找回密码处，如果用户设置问题密码�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class eyou_resetpw_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class eyou_resetpw_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if req.status_code == 200 and r"pw_intensity" in req.text:
-                cprint("[+]存在eyou邮件系统重置密码问题页面...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在eyou邮件系统重置密码问题页面...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = eyou_resetpw_BaseVerify(sys.argv[1])
     testVuln.run()

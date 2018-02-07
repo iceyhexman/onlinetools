@@ -8,8 +8,8 @@ description: 端口211数据可操纵，泄露敏感信息。
 '''
 import sys
 import socket
-import warnings
-from termcolor import cprint
+
+
 from urllib.parse import urlparse
 
 class zfsoft_database_control_BaseVerify:
@@ -35,12 +35,12 @@ class zfsoft_database_control_BaseVerify:
         s.settimeout(6)
         try:
             s.connect((host, port))
-            cprint("[+]存在正方教务系统数据库任意操纵漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
+            return "[+]存在正方教务系统数据库任意操纵漏洞...(高危)\tpayload: "+host+":"+str(port)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = zfsoft_database_control_BaseVerify(sys.argv[1])
     testVuln.run()

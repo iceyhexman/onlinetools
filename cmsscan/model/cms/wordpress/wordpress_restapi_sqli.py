@@ -9,8 +9,8 @@ description: 篡改文章权限。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_restapi_sqli_BaseVerify:
     def __init__(self, url):
@@ -38,12 +38,12 @@ class wordpress_restapi_sqli_BaseVerify:
             d = json.loads(req.text)
             status = d['data']['status']
             if status != 401 and status != 400:
-                cprint("[+]存在wordpress rest api权限失效导致内容注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在wordpress rest api权限失效导致内容注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_restapi_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

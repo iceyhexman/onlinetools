@@ -8,8 +8,8 @@ description: 利用.NET的bug可以伪造viewstate登录到SQL执行页面,添�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class pageadmin_forge_viewstate_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class pageadmin_forge_viewstate_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"WebForm_DoPostBackWithOptions" in req.text and r"Tb_sql" in req.text:
-                cprint("[+]存在PageAdmin可“伪造”VIEWSTATE执行任意SQL查询&重置管理员密码漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在PageAdmin可“伪造”VIEWSTATE执行任意SQL查询&重置管理员密码漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = pageadmin_forge_viewstate_BaseVerify(sys.argv[1])
     testVuln.run()

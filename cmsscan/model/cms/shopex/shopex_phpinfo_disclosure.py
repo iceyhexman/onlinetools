@@ -8,8 +8,8 @@ description: 路径 app/dev/svinfo.php,打开后可看到服务器测评信息�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class shopex_phpinfo_disclosure_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class shopex_phpinfo_disclosure_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if r"Configuration File (php.ini) Path" in req.text:
-                cprint("[+]存在shopex敏感信息泄露...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在shopex敏感信息泄露...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = shopex_phpinfo_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

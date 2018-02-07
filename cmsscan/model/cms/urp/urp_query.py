@@ -8,8 +8,8 @@ description: urp查询接口未设置权限，可以越权查询任意学生信�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class urp_query_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class urp_query_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"成绩单" in req.text:
-                cprint("[+]存在urp查询接口曝露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在urp查询接口曝露漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = urp_query_BaseVerify(sys.argv[1])
     testVuln.run()

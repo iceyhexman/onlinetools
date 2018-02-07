@@ -8,8 +8,8 @@ description: 在dedecms 5.7sp1的/plus/download.php中67行存在的代码，即
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class dedecms_download_redirect_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class dedecms_download_redirect_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"www.baidu.com" in req.text:
-                cprint("[+]存在dedecms download.php重定向漏洞...(低危)\tpayload: "+vulnurl, "blue")
+                return "[+]存在dedecms download.php重定向漏洞...(低危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = dedecms_download_redirect_BaseVerify(sys.argv[1])
     testVuln.run()

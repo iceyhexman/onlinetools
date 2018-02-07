@@ -8,8 +8,8 @@ description: 过滤函数不严谨造成的过滤绕过。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpcms_v96_sqli_BaseVerify:
     def __init__(self, url):
@@ -43,11 +43,11 @@ class phpcms_v96_sqli_BaseVerify:
         try:
             req3 = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"XPATH syntax error" in req3.text:
-                cprint("[+]存在phpcms v9.6.0 SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在phpcms v9.6.0 SQL注入漏洞...(高危)\tpayload: "+vulnurl
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpcms_v96_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

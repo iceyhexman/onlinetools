@@ -8,8 +8,8 @@ description: DaMall CMS文件selloffer.html?key参数存在搜索型SQL注入漏
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class damall_selloffer_sqli_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class damall_selloffer_sqli_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if req.status_code == 500 and r"Microsoft SQL Server" in req.text:
-                cprint("[+]存在damall商城系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在damall商城系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = damall_selloffer_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

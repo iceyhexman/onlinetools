@@ -9,8 +9,8 @@ description: smartoa系统中,EmailDownload.ashx的url参数,UDFDownLoad.ashx的
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class smartoa_multi_filedownload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class smartoa_multi_filedownload_BaseVerify:
                 req = requests.get(vulnurl, timeout=10, verify=False)
 
                 if req.headers["Content-Type"] == "application/xml":
-                    cprint("[+]存在smartoa任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在smartoa任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = smartoa_multi_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

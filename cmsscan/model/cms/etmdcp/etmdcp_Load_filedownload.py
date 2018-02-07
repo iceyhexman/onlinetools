@@ -9,8 +9,8 @@ description: 该校园平台使用了第三方编辑器CuteEditor，虽然删除
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class etmdcp_Load_filedownload_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class etmdcp_Load_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在ETMV9数字化校园平台任意下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在ETMV9数字化校园平台任意下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = etmdcp_Load_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

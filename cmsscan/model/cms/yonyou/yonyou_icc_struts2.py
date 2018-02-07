@@ -8,8 +8,8 @@ description: 用友ICC系统存在struts2框架漏洞。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_icc_struts2_BaseVerify:
     def __init__(self, url):
@@ -23,18 +23,18 @@ class yonyou_icc_struts2_BaseVerify:
             try:
                 req = requests.get(vulnurl, timeout=10, verify=False)
                 if r"Active Internet connections" in req.text:
-                    cprint("[+]存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]", "red")
+                    return "[+]存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]"
 
                 if r"Active Connections" in req.text or r"活动连接" in req.text:
-                    cprint("[+]存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]", "red")
+                    return "[+]存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]"
 
                 if r"LISTEN" in req.text:
-                    cprint("[+]可能存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]可能存在用友struts 命令执行漏洞...(高危)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_icc_struts2_BaseVerify(sys.argv[1])
     testVuln.run()

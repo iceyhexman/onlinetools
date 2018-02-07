@@ -8,8 +8,8 @@ description: dedecms /plus/search.php typeArr存在SQL注入，由于有的waf�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class dedecms_search_typeArr_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class dedecms_search_typeArr_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Error infos" in req.text and r"Error sql" in req.text:
-                cprint("[+]存在dedecms search.php SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在dedecms search.php SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = dedecms_search_typeArr_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

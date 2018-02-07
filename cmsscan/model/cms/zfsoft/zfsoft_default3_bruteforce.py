@@ -8,8 +8,8 @@ description: 文件default3.aspx页面可爆破。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class zfsoft_default3_bruteforce_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class zfsoft_default3_bruteforce_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"__VIEWSTATEGENERATOR" in req.text and r"CheckCode.aspx" not in req.text and req.status_code ==200:
-                cprint("[+]存在正方教务系统default3.aspx爆破页面...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在正方教务系统default3.aspx爆破页面...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = zfsoft_default3_bruteforce_BaseVerify(sys.argv[1])
     testVuln.run()

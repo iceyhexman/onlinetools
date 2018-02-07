@@ -8,8 +8,8 @@ description: /MessageBoard/Default.aspx文件Page参数存在SQL注入漏洞,获
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class mainone_b2b_Default_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class mainone_b2b_Default_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 500 and r"@Microsoft" in req.text:
-                cprint("[+]存在铭万事业通用建站系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在铭万事业通用建站系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = mainone_b2b_Default_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

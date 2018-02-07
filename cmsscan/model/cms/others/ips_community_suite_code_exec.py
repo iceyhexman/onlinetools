@@ -13,8 +13,8 @@ description: IPS Community Suite "是一款国外比较常见的cms。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class ips_community_suite_code_exec_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class ips_community_suite_code_exec_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req.text:
-                cprint("[+]存在IPS Community Suite <= 4.1.12.3 PHP远程代码执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在IPS Community Suite <= 4.1.12.3 PHP远程代码执行漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = ips_community_suite_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

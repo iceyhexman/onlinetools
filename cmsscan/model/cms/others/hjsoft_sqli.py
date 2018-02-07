@@ -12,8 +12,8 @@ import sys
 import time
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class hjsoft_sqli_BaseVerify:
     def __init__(self, url):
@@ -41,21 +41,21 @@ class hjsoft_sqli_BaseVerify:
             try:
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if time.time() - start_time >= 6:
-                    cprint("[+]存在宏景EHR系统 SQL注入漏洞...(高危)\t\tpayload: "+vulnurl, "red")
+                    return "[+]存在宏景EHR系统 SQL注入漏洞...(高危)\t\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
         start_time = time.time()
         try:
             req2 = requests.post(post_url, headers=headers, data=post_data, timeout=10, verify=False)
             if time.time() - start_time >= 6:
-                cprint("[+]存在宏景EHR系统 SQL注入漏洞...(高危)\t\tpayload: "+post_url+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在宏景EHR系统 SQL注入漏洞...(高危)\t\tpayload: "+post_url+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = hjsoft_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

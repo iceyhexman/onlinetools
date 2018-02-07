@@ -9,8 +9,8 @@ description: infogate在注册的时候允许带入多个不在计划内的参�
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_infogate_register_BaseVerify:
     def __init__(self, url):
@@ -28,12 +28,12 @@ class trs_infogate_register_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"CUSTOMERUSER" in req.text and r"CUSTOMERUSERID" in req.text:
-                cprint("[+]存在trs infogate插件 任意注册漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在trs infogate插件 任意注册漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_infogate_register_BaseVerify(sys.argv[1])
     testVuln.run()

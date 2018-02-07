@@ -8,8 +8,8 @@ description: feed-statistics.php中参数url未经过验证可跳转任意网站
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_url_redirect_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class wordpress_url_redirect_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"www.baidu.com" in req.text:
-                cprint("[+]存在wordpress插件跳转漏洞...(低危)\tpayload: "+vulnurl, "blue")
+                return "[+]存在wordpress插件跳转漏洞...(低危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_url_redirect_BaseVerify(sys.argv[1])
     testVuln.run()

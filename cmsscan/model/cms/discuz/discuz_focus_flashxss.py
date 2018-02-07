@@ -10,8 +10,8 @@ import sys
 import urllib
 import hashlib
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class discuz_focus_flashxss_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class discuz_focus_flashxss_BaseVerify:
             data = req.read()
             md5_value = hashlib.md5(data).hexdigest()
             if md5_value in flash_md5:
-                cprint("[+]存在discuz X3 focus.swf flashxss漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在discuz X3 focus.swf flashxss漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = discuz_focus_flashxss_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: fileid参数引起的布尔盲注。
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class weaver_oa_filedownload_BaseVerify:
     def __init__(self, url):
@@ -27,12 +27,12 @@ class weaver_oa_filedownload_BaseVerify:
             if req.status_code == 200:
                 m = re.search(r'No error in <b>([^<]+)</b>', req.text)
                 if m:
-                    cprint("[+]存在泛微OA downfile.php 任意文件下载漏洞...(高危)\tpayload: "+self.url, "red")
+                    return "[+]存在泛微OA downfile.php 任意文件下载漏洞...(高危)\tpayload: "+self.url
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = weaver_oa_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

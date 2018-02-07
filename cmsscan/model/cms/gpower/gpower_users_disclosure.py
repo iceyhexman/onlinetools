@@ -8,8 +8,8 @@ description: 未做权限过滤，可以显示所有用户的用户名
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class gpower_users_disclosure_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class gpower_users_disclosure_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"totalProperty" in req.text:
-                cprint("[+]存在通元内容管理系统用户名泄露...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在通元内容管理系统用户名泄露...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = gpower_users_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

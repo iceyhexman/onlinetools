@@ -8,8 +8,8 @@ description: 文件/zhidao/zhidao/search.php中,参数fulltext存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class suntown_upfile_fileupload_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class suntown_upfile_fileupload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"PageA_name" in req.text and r"PageA_per" in req.text:
-                cprint("[+]存在suntown未授权任意文件上传漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在suntown未授权任意文件上传漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = suntown_upfile_fileupload_BaseVerify(sys.argv[1])
     testVuln.run()

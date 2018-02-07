@@ -16,8 +16,8 @@ description: 金蝶协同办公系统基于resin引用了漏洞组件导致远�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class kingdee_resin_dir_path_disclosure_BaseVerify:
     def __init__(self, url):
@@ -34,12 +34,12 @@ class kingdee_resin_dir_path_disclosure_BaseVerify:
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
                 if r"Directory" in req.text:
-                    cprint("[+]存在金蝶协同系统远程信息泄露漏洞...(敏感信息)\tpayload: "+vulnurl, "green")
+                    return "[+]存在金蝶协同系统远程信息泄露漏洞...(敏感信息)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = kingdee_resin_dir_path_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

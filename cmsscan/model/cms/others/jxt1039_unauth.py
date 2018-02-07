@@ -8,8 +8,8 @@ description: 1039驾校通通用型系统存在未授权漏洞。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class jxt1039_unauth_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class jxt1039_unauth_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"ShengQingPS.aspx" in req.text and r"LiuShuiZhang.aspx" in req.text:
-                cprint("[+]存在1039驾校通未授权访问漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在1039驾校通未授权访问漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = jxt1039_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 珠海政采软件技术有限公司的政府采购网系统 存在
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class gpcsoft_ewebeditor_weak_BaseVerify:
     def __init__(self, url):
@@ -38,16 +38,16 @@ class gpcsoft_ewebeditor_weak_BaseVerify:
                     req2 = sess.post(vulnurl, headers=headers, data=post_data2, timeout=10, verify=False)
                     if len(req1.text) != len(req2.text):
                         if req2.status_code == 200 and r"ewebeditor" in req2.text.lower():
-                            cprint("[+]存在政采eweb编辑器弱口令漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data2), "red")
+                            return "[+]存在政采eweb编辑器弱口令漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data2)
                             break
 
                 except:
                     pass
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = gpcsoft_ewebeditor_weak_BaseVerify(sys.argv[1])
     testVuln.run()

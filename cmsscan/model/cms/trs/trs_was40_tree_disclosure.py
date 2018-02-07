@@ -8,8 +8,8 @@ description: 访问was40/tree可查看信息导航树。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_was40_tree_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_was40_tree_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"tree?treekind=navigate" in req.text and r"administrator" in req.text:
-                cprint("[+]存在TRS was40 tree导航树泄露漏洞...(低危)\tpayload: "+vulnurl, "green")
+                return "[+]存在TRS was40 tree导航树泄露漏洞...(低危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_was40_tree_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

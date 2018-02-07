@@ -8,8 +8,8 @@ description: skytech政务系统越权漏洞,泄露敏感信息。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class skytech_bypass_priv_BaseVerify:
     def __init__(self, url):
@@ -21,12 +21,12 @@ class skytech_bypass_priv_BaseVerify:
         try:
             req = requests.get(vulnurl, timeout=10, verify=False)
             if r"txtUserRights" in req.text and r"txtTitle" in req.text:
-                cprint("[+]存在skytech政务系统越权漏洞...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在skytech政务系统越权漏洞...(敏感信息)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = skytech_bypass_priv_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: 禁用JS可越权查看文件目录,并人容易删除文件。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class iwms_bypass_js_delete_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class iwms_bypass_js_delete_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"btnCreateFolder" in req.text:
-                cprint("[+]存在IWMS系统后台绕过&整站删除漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在IWMS系统后台绕过&整站删除漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = iwms_bypass_js_delete_BaseVerify(sys.argv[1])
     testVuln.run()

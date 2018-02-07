@@ -8,8 +8,8 @@ description: 过滤不严导致的代码执行
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class thinksns_category_code_exec_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class thinksns_category_code_exec_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Configuration File (php.ini) Path" in req.text:
-                cprint("[+]存在thinksns category模块代码执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在thinksns category模块代码执行漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = thinksns_category_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

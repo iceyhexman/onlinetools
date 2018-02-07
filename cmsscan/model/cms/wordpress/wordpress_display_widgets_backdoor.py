@@ -8,8 +8,8 @@ description: wordpress display-widgets Version 2.6.1——Version 2.6.3.1 geoloc
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_display_widgets_backdoor_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class wordpress_display_widgets_backdoor_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False, allow_redirects=False)
             if req.status_code == 200:
-                cprint("[+]存在wordpress display-widgets插件后门漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在wordpress display-widgets插件后门漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_display_widgets_backdoor_BaseVerify(sys.argv[1])
     testVuln.run()

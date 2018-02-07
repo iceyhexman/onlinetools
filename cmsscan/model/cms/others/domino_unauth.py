@@ -8,8 +8,8 @@ description: lotus-domino未授权访问，可以获得用户名和密码hash列
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class domino_unauth_BaseVerify:
     def __init__(self, url):
@@ -22,12 +22,12 @@ class domino_unauth_BaseVerify:
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if r"HTTPPassword" in req.text:
-                cprint("[+]存在domino未授权漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在domino未授权漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = domino_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

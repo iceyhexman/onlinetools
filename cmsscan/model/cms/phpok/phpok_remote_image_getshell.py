@@ -11,8 +11,8 @@ import time
 import hashlib
 import datetime
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpok_remote_image_getshell_BaseVerify:
     def __init__(self, url):
@@ -33,12 +33,12 @@ class phpok_remote_image_getshell_BaseVerify:
             time.sleep(6)
             reqr = requests.get(eye_url, headers=headers, timeout=10, verify=False)
             if md5_str in reqr.text:
-                cprint("[+]存在phpok remote_image getshell漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在phpok remote_image getshell漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpok_remote_image_getshell_BaseVerify(sys.argv[1])
     testVuln.run()

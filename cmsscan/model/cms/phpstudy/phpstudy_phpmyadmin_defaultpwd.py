@@ -9,8 +9,8 @@ description: phpstudy的默认phpmyadmin后台存在默认用户名密码可写s
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class phpstudy_phpmyadmin_defaultpwd_BaseVerify:
     def __init__(self, url):
@@ -34,12 +34,12 @@ class phpstudy_phpmyadmin_defaultpwd_BaseVerify:
             req = sess.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             req2 = sess.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"navigation.php" in req2.text and r"frame_navigation" in req.text:
-                cprint("[+]存在phpstudy phpmyadmin默认密码漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在phpstudy phpmyadmin默认密码漏洞...(高危)\tpayload: "+vulnurl+"\tpost: "+json.dumps(post_data, indent=4)
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = phpstudy_phpmyadmin_defaultpwd_BaseVerify(sys.argv[1])
     testVuln.run()

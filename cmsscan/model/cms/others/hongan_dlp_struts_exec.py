@@ -8,8 +8,8 @@ description: oshadan "Heimdall DLP数据泄漏防护系统" /dlp/login.do存在s
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class hongan_dlp_struts_exec_BaseVerify:
     def __init__(self, url):
@@ -24,21 +24,21 @@ class hongan_dlp_struts_exec_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"Active Internet connections" in req.text:
-                cprint("[+]存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]", "red")
+                return "[+]存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Linux]"
 
             elif r"Active Connections" in req.text or r"活动连接" in req.text:
-                cprint("[+]存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]", "red")
+                return "[+]存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl+"\t[Windows]"
 
             elif r"LISTEN" in req.text:
-                cprint("[+]可能存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]可能存在虹安系统struts 命令执行漏洞...(高危)\tpayload: "+vulnurl
 
             else:
                 pass
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = hongan_dlp_struts_exec_BaseVerify(sys.argv[1])
     testVuln.run()

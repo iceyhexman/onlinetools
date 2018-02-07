@@ -8,8 +8,8 @@ description: \www\cw\skin1\jsp\download.jsp源码中,未经过文件类型检查
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wizbank_download_filedownload_BaseVerify():
     def __init__(self, url):
@@ -22,12 +22,12 @@ class wizbank_download_filedownload_BaseVerify():
             req = requests.get(vulnurl, timeout=10, verify=False)
 
             if req.headers["Content-Type"] == "application/xml":
-                cprint("[+]存在wizbank学习管理系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在wizbank学习管理系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wizbank_download_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

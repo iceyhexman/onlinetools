@@ -8,8 +8,8 @@ description: 拓尔思wcm系统webservice有两处操作可任意写入webshell�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class trs_wcm_service_writefile_BaseVerify:
     def __init__(self, url):
@@ -24,12 +24,12 @@ class trs_wcm_service_writefile_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"writeFile" in req.text and r"writeSpecFile" in req.text:
-                cprint("[+]存在拓尔思 wcm webservice文件写入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在拓尔思 wcm webservice文件写入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = trs_wcm_service_writefile_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -9,8 +9,8 @@ description: 文件City_ajax.aspx中,参数CityId存在SQL注入。
 import sys
 import time
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class foosun_City_ajax_sqli_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class foosun_City_ajax_sqli_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if time.time() - start_time >= 6:
-                cprint("[+]存在Dotnetcms(风讯cms)SQL注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在Dotnetcms(风讯cms)SQL注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = foosun_City_ajax_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

