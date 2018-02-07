@@ -7,9 +7,7 @@ author: Lucifer
 description: 江南科友堡垒机泄露主机账号密码。
 '''
 import sys
-import warnings
 import requests
-from termcolor import cprint
 
 class hac_gateway_info_disclosure_BaseVerify:
     def __init__(self, url):
@@ -28,12 +26,12 @@ class hac_gateway_info_disclosure_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.head(vulnurl, headers=headers, timeout=10, verify=False)
                 if r"application/vnd.ms-excel" in req.headers["Content-Type"]:
-                    cprint("[+]存在江南科友堡垒机信息泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
-
+                    return "[+]存在江南科友堡垒机信息泄露漏洞...(中危)\tpayload: "+vulnurl
+                else:
+                    return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = hac_gateway_info_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

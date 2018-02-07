@@ -11,8 +11,6 @@ import sys
 import random
 import string
 import requests
-import warnings
-from termcolor import cprint
 
 class intel_amt_crypt_bypass_BaseVerify:
     def __init__(self, url):
@@ -40,12 +38,14 @@ class intel_amt_crypt_bypass_BaseVerify:
             }
             req2 = requests.get(vulnurl, headers=headers2, timeout=10, verify=False)
             if r"href=remote.htm" in req2.text and r"href=hw-sys.htm" in req2.text:
-                cprint("[+]存在intel AMT web系统绕过登录(CVE-2017-5689)漏洞...(高危)\tpayload: "+vulnurl+"\t在burpsuite中撸它", "red")
+                return "[+]存在intel AMT web系统绕过登录(CVE-2017-5689)漏洞...(高危)\tpayload: "+vulnurl+"\t在burpsuite中撸它"
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-]======>连接超时"
+
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = intel_amt_crypt_bypass_BaseVerify(sys.argv[1])
     testVuln.run()

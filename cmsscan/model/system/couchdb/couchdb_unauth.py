@@ -9,9 +9,7 @@ description: CouchDB允许通过自身提供的Restful API接口动态修改配�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
-from urllib.parse import urlparse
+
 
 class couchdb_unauth_BaseVerify:
     def __init__(self, url):
@@ -28,13 +26,13 @@ class couchdb_unauth_BaseVerify:
             vulnurl = self.url + "/_all_dbs"
             req2 = requests.get(vulnurl, headers=headers, timeout=6, verify=False)
             if r"itestvuls" in req2.text:
-                cprint("[+]存在CouchDB 未授权漏洞...(高危)\tpayload: "+vulnurl+"\t创建数据库itestvuls", "red")
-
+                return "[+]存在CouchDB 未授权漏洞...(高危)\tpayload: "+vulnurl+"\t创建数据库itestvuls"
+            else:
+                return "[-]no vuln"
         except Exception as e:
             print(e)
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = couchdb_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

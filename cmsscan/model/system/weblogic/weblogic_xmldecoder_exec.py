@@ -8,8 +8,6 @@ description: weblogic /wls-wsat/CoordinatorPortType接口存在命令执行。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
 
 class weblogic_xmldecoder_exec_BaseVerify:
     def __init__(self, url):
@@ -50,12 +48,12 @@ class weblogic_xmldecoder_exec_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if req.status_code == 500 and r"java.lang.ProcessBuilder" in req.text:
-                cprint("[+]存在weblogic XMLdecoder反序列化漏洞...(高危)\tpayload: "+vulnurl, "red")
-
+                return "[+]存在weblogic XMLdecoder反序列化漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = weblogic_xmldecoder_exec_BaseVerify(sys.argv[1])
     testVuln.run()

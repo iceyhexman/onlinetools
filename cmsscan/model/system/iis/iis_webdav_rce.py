@@ -7,9 +7,7 @@ author: lcatro
 description: CVE-2017-7269是IIS 6.0中存在的一个栈溢出漏洞，在IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，该漏洞可以导致远程代码执行。
 '''
 import sys
-import warnings
 import socket
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class iis_webdav_rce_BaseVerify:
@@ -48,15 +46,18 @@ class iis_webdav_rce_BaseVerify:
             try :
                 data = sock.recv(80960).decode()
             except :
+                data = ''
                 pass
             sock.close()
             if not -1 == data.find('HHIT CVE-2017-7269 Success'):
-                cprint("[+]存在IIS 6.0 webdav远程代码执行漏洞(CVE-2017-7269)...(高危)\tpayload: "+host+":"+str(port), "red")
+                return "[+]存在IIS 6.0 webdav远程代码执行漏洞(CVE-2017-7269)...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
+
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = iis_webdav_rce_BaseVerify(sys.argv[1])
     testVuln.run()

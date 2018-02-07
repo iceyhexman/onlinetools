@@ -8,8 +8,6 @@ description: 宏杰Zkeys虚拟主机默认开启999端口，默认数据库密�
 '''
 import sys
 import pymysql
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class zkeys_database_conf_BaseVerify:
@@ -34,12 +32,13 @@ class zkeys_database_conf_BaseVerify:
         try:
             conn = pymysql.connect(host=host, user="root", passwd="zkeys", port=port, connect_timeout=6)
             if conn.ping().server_status == 0:
-                cprint("[+]存在宏杰Zkeys虚拟主机默认数据库漏洞...(高危)\tpayload: "+host+":"+str(port)+" root:zkeys", "red")
+                return "[+]存在宏杰Zkeys虚拟主机默认数据库漏洞...(高危)\tpayload: "+host+":"+str(port)+" root:zkeys"
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = zkeys_database_conf_BaseVerify(sys.argv[1])
     testVuln.run()

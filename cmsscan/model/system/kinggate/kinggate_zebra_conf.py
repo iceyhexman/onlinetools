@@ -7,9 +7,7 @@ author: Lucifer
 description: 由于KingGate防火墙使用zebra路由软件的，这是一款由Cisco自主开发的闭源路由器软件，默认开启2601端口，而且默认密码是zebra。
 '''
 import sys
-import warnings
 import telnetlib
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class kinggate_zebra_conf_BaseVerify:
@@ -41,11 +39,12 @@ class kinggate_zebra_conf_BaseVerify:
             result = tlib.read_until(b"zrinfo>", timeout=6)
             tlib.close()
             if result.find(b"zrinfo>") is not -1:
-                cprint("[+]存在KingGate zebra默认配置漏洞...(高危)\tpayload: "+host+":"+str(port)+" pass:zebra", "red")
+                return "[+]存在KingGate zebra默认配置漏洞...(高危)\tpayload: "+host+":"+str(port)+" pass:zebra"
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = kinggate_zebra_conf_BaseVerify(sys.argv[1])
     testVuln.run()

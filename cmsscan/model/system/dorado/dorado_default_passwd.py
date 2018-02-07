@@ -9,8 +9,7 @@ description: dorado是一款web中间件，具有AJAX特征的web应用表现层
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
+
 
 class dorado_default_passwd_BaseVerify:
     def __init__(self, url):
@@ -34,15 +33,17 @@ class dorado_default_passwd_BaseVerify:
         try:
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if r"console.showSystemInfo.d" in req.text:
-                cprint("[+]存在dorado默认口令漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在dorado默认口令漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
             req2 = requests.post(vulnurl, data=post_data2, headers=headers, timeout=10, verify=False)
-            if r"console.showSystemInfo.d" in req.text:
-                cprint("[+]存在dorado默认口令漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data2, indent=4), "red")
+            if r"console.showSystemInfo.d" in req2.text:
+                return "[+]存在dorado默认口令漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data2, indent=4)
+            else:
+                return "[-]no"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
+
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = dorado_default_passwd_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,6 @@ description: smtp starttls明文命令注入漏洞可以使攻击者通过发送
 '''
 import sys
 import socket
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class smtp_starttls_plaintext_inj_BaseVerify:
@@ -40,12 +38,12 @@ class smtp_starttls_plaintext_inj_BaseVerify:
             result = s.recv(1024).decode()
             s.close()
             if r"220 Ready to start TLS" in result:
-                cprint("[+]存在smtp starttls明文命令注入(CVE-2011-0411)漏洞...(中危)\tpayload: "+host+":"+str(port), "yellow")
-
+                return "[+]存在smtp starttls明文命令注入(CVE-2011-0411)漏洞...(中危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = smtp_starttls_plaintext_inj_BaseVerify(sys.argv[1])
     testVuln.run()

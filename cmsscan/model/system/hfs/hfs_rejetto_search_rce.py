@@ -8,8 +8,7 @@ description: search引起的命令执行。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
 
 class hfs_rejetto_search_rce_BaseVerify:
     def __init__(self, url):
@@ -28,16 +27,15 @@ class hfs_rejetto_search_rce_BaseVerify:
             req = sess.get(vulnurl, headers=headers, timeout=10, verify=False)
             check_cookie = req.headers.get("set-cookie")
             if check_cookie is None:
-                pass
+                return "[-]no"
             elif r"123456test" in check_cookie:
-                cprint("[+]存在hfs rejetto 远程代码执行漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在hfs rejetto 远程代码执行漏洞...(高危)\tpayload: "+vulnurl
             else:
-                pass
+                return "[-]no"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = hfs_rejetto_search_rce_BaseVerify(sys.argv[1])
     testVuln.run()

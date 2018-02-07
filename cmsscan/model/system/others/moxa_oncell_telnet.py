@@ -7,9 +7,7 @@ author: Lucifer
 description: Moxa OnCell telnet直接进入。
 '''
 import sys
-import warnings
 import telnetlib
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class moxa_oncell_telnet_BaseVerify:
@@ -39,12 +37,13 @@ class moxa_oncell_telnet_BaseVerify:
             result = tlib.read_until(b"Console terminal type", timeout=6)
             tlib.close()
             if result.find(b"Console terminal type") is not -1:
-                cprint("[+]存在Moxa OnCell 未授权访问漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
+                return "[+]存在Moxa OnCell 未授权访问漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = moxa_oncell_telnet_BaseVerify(sys.argv[1])
     testVuln.run()

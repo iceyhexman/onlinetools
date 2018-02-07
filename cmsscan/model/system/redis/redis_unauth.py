@@ -8,8 +8,6 @@ description: redis无用户名密码可直接远程操纵。
 '''
 import sys
 import redis
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class redis_unauth_BaseVerify:
@@ -34,12 +32,12 @@ class redis_unauth_BaseVerify:
         try:
             r = redis.Redis(host, port=port, db=0, socket_timeout=6.0)
             if r.ping() is True:
-                cprint("[+]存在redis 未授权漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
-
+                return "[+]存在redis 未授权漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = redis_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

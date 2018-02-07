@@ -10,8 +10,6 @@ description: Zookeeper的默认开放端口是2181。Zookeeper安装部署之后
 '''
 import sys
 import socket
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class zookeeper_unauth_BaseVerify:
@@ -40,12 +38,12 @@ class zookeeper_unauth_BaseVerify:
             s.send(b'envi')
             data = s.recv(1024).decode()
             if r"Environment" in data and r"zookeeper" in data:
-                cprint("[+]存在zookeeper 未授权漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
-
+                return "[+]存在zookeeper 未授权漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return ("[-] ====>连接超时", "cyan")
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = zookeeper_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -8,8 +8,6 @@ description: 开启了expose_php模块。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
 
 class php_expose_disclosure_BaseVerify:
     def __init__(self, url):
@@ -24,12 +22,12 @@ class php_expose_disclosure_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"XMLWriter" in req.text and r"phpinfo" in req.text:
-                cprint("[+]存在php expose_php模块开启...(信息)\tpayload: "+vulnurl, "green")
-
+                return "[+]存在php expose_php模块开启...(信息)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = php_expose_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

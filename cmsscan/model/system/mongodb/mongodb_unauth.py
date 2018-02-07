@@ -8,8 +8,6 @@ description: 开启MongoDB服务时不添加任何参数时,默认是没有权�
 '''
 import sys
 import pymongo
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class mongodb_unauth_BaseVerify:
@@ -35,14 +33,14 @@ class mongodb_unauth_BaseVerify:
             mongo = pymongo.MongoClient(host, port, serverSelectionTimeoutMS=6000)
             version = mongo.server_info()['version']
             ok = mongo.server_info()['ok']
-            if version is not None and ok is not None:
-                cprint("[+]存在mongodb 未授权漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
             mongo.close()
-
+            if version is not None and ok is not None:
+                return "[+]存在mongodb 未授权漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = mongodb_unauth_BaseVerify(sys.argv[1])
     testVuln.run()

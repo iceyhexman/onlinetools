@@ -7,9 +7,7 @@ author: Lucifer
 description: weblogic 接口泄露
 '''
 import sys
-import warnings
 import requests
-from termcolor import cprint
 
 class weblogic_interface_disclosure_BaseVerify:
     def __init__(self, url):
@@ -25,12 +23,13 @@ class weblogic_interface_disclosure_BaseVerify:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False, allow_redirects=False)
 
             if req.status_code == 200:
-                cprint("[+]存在weblogic 接口泄露漏洞...(信息)\tpayload: "+vulnurl, "green")
+                return "[+]存在weblogic 接口泄露漏洞...(信息)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = weblogic_interface_disclosure_BaseVerify(sys.argv[1])
     testVuln.run()

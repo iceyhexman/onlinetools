@@ -9,8 +9,6 @@ description: webserver为了提供fastcgi一些参数，每次转发请求的时
 '''
 import sys
 import socket
-import warnings
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class php_fastcgi_read_BaseVerify:
@@ -55,13 +53,15 @@ class php_fastcgi_read_BaseVerify:
             sock.send(data_s)
             ret = sock.recv(1024).decode()
             if ret.find("root:") > 0 and ret.find("/bin/bash") > 0:
-                    cprint("[+]存在php fastcgi任意文件读取漏洞漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
+                sock.close()
+                return "[+]存在php fastcgi任意文件读取漏洞漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                sock.close()
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
-        sock.close()
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = php_fastcgi_read_BaseVerify(sys.argv[1])
     testVuln.run()

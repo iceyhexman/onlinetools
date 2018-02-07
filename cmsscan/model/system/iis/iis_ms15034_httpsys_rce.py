@@ -8,9 +8,7 @@ description: 利用HTTP.sys的安全漏洞，攻击者只需要发送恶意的ht
 '''
 import sys
 import ssl
-import warnings
 import socket
-from termcolor import cprint
 from urllib.parse import urlparse
 
 class iis_ms15034_httpsys_rce_BaseVerify:
@@ -42,12 +40,12 @@ class iis_ms15034_httpsys_rce_BaseVerify:
             sock.send(request.encode())
             response = sock.recv(1024).decode()
             if "Requested Range Not Satisfiable" in response and "Server: nginx" not in response:
-                cprint("[+]存在MS15_034 http.sys远程代码执行漏洞...(高危)\tpayload: "+host+":"+str(port), "red")
-
+                return "[+]存在MS15_034 http.sys远程代码执行漏洞...(高危)\tpayload: "+host+":"+str(port)
+            else:
+                return "[-]no vuln"
         except:
-            cprint("[-] "+__file__+"====>连接超时", "cyan")
+            return "[-] ======>连接超时"
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore")
     testVuln = iis_ms15034_httpsys_rce_BaseVerify(sys.argv[1])
     testVuln.run()
