@@ -81,7 +81,7 @@ def py2img():
 
 @app.route('/search')
 def search():
-    render_template('/search.html', title='搜索')
+    return render_template('/search.html', title='搜索')
 
 
 '''
