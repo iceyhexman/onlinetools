@@ -1,0 +1,7 @@
+flask
+requests
+bs4
+redis
+pexpect
+pymysql
+pymongo
