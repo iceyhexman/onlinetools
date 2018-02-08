@@ -9,7 +9,7 @@
 
 
 # 依赖安装
-    (su) pip install -r requirements.txt
+    pip install -r requirements.txt
 
 #使用方法
     python3 main.py
@@ -29,23 +29,17 @@
 
 # 运行截图
 
-![cmsreg][1]
-![result][2]
-![pang][3]![information][4]![industrial][5]
-![js][6]![search][7]![hardware][8]![information][9]
+![cmsreg](/img/cms.png)
+![cmsvuln](/img/cmsaq.png)
+![pang](/img/pang.png)
+![industrial](/img/industrial.png)
+![system](/img/system.png)
+![js](/img/jsfuck.png)
+![search](/img/search.png)
+![hardware](/img/hardware.png)
+![information](/img/information.png)
 
 
-
-  [1]: /img/cmsaq.png
-  [2]: /img/cms.png
-  [3]: /img/pang.png
-  [4]: /img/system.png
-  [5]: /img/industrial.png
-  [6]: /img/jsfuck.png
-  [7]: /img/search.png
-  [8]: /img/hardware.png
-  [9]: /img/information.png
-  
   
 # bug
 Blog:https://www.hexlt.org
