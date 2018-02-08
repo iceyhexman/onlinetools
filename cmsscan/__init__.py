@@ -74,11 +74,6 @@ def cms_scan():
     return render_template('cms.html', title='cms安全检测')
 
 
-@app.route('/py2img')
-def py2img():
-    return render_template('py2img.html', title='python转图像')
-
-
 @app.route('/search')
 def search():
     return render_template('/search.html', title='搜索')
