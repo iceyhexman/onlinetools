@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				PortScan
+			</div>
+		</div>
+	</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="input-group-lg">
+      <input type="text" id="ip" class="form-control" aria-label="..." name="ip" placeholder="ip:192.168.1.1 或ip段192.168.1.1-192.168.1.255">
+      <input type="text" id="port" class="form-control" aria-label="..." name="port"  placeholder="端口:21,22,80,135,139,445,3306,4444 或80-445">
+      <center>
+        <button type="button" id="scan" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>扫描</b></button>
+			</center>
+    </div>
+  </div>
+</div>
+<div class="row main-panel">
+  <div class="col-md-1"></div>
+	<div class="col-md-10">
+    <div id="color" class="panel panel-primary">
+      <div class="panel-heading" id="result">
+						结果：
+			</div>
+    </div>
+  </div>
+</div>
+<div class="row">
+	<div class="col-md-10">
+		<div class="text-wrap">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+</div>
+</div>
+<script>
+var PortScanApi="/api/portscan"
+var outhtml='<div class="panel-heading" id="result">结果：</div>'
+var portlist=[]
+$(function() {
+    $("#scan").click(function() {
+        portsORportrange=$('#port').val(); //ports looks like:21,22,80,135,139,445,3306,4444    portrange looks like:80-100
+        ipORips=$('#ip').val(); // ip looks like :192.168.1.1   ips looks like:192.168.1.1-192.168.1.255
+        if(inputcheck(ipORips,portsORportrange)){
+          getportlist(portsORportrange)
+          if(ipORips.indexOf("-") !=-1){
+            scanips(ipORips.split("-")[0],ipORips.split("-")[1]);
+          }else {
+            scanSigelip(ipORips)
+          }
+        }
+        outhtml='<div class="panel-heading" id="result">结果：</div>'
+    });
+});
+
+function scanSigelip(ip){
+    for(var i in portlist){
+      request(ip,portlist[i])
+    }
+}
+
+function getportlist(rawports){
+    portlist=[]
+    if(rawports.indexOf("-")!=-1){
+      portstart=+rawports.split("-")[0]
+      portend=+rawports.split("-")[1]
+      for(var i = portstart;i<=portend;i++){
+        portlist.push(i)
+      }
+    }else{
+      for(var i in rawports.split(",")){
+        portlist.push(+rawports.split(",")[i])
+      }
+    }
+}
+
+function request(ip,port){
+
+    $.post(PortScanApi,JSON.stringify({"ip":ip,"port":port}),function (results){
+    	if(results.status){
+        	outhtml+='<ul class="list-group"><li class="list-group-item"><span class="text-success">[+]IP: '+results.ip+' '+results.port+'/tcp open</span></li></ul>'
+    	}else{
+    		outhtml+='<ul class="list-group"><li class="list-group-item"><span class="text-danger">[-]IP: '+results.ip+' '+results.port+'/tcp Closed</span></li></ul>'
+    	}
+      $('#result').html(outhtml)
+    },"json");
+}
+
+function inputcheck(ip,port){
+        if(ip&&port) {
+            return true;
+        }else{
+        	alert('请将相关信息填写完整');
+            return false;
+
+        }
+}
+
+function ip2int(ip)
+{
+    var num = 0;
+    ip = ip.split(".");
+    num = Number(ip[0]) * 256 * 256 * 256 + Number(ip[1]) * 256 * 256 + Number(ip[2]) * 256 + Number(ip[3]);
+    num = num >>> 0;
+    return num;
+}
+
+function int2iP(num)
+{
+    var str;
+    var tt = new Array();
+    tt[0] = (num >>> 24) >>> 0;
+    tt[1] = ((num << 8) >>> 24) >>> 0;
+    tt[2] = (num << 16) >>> 24;
+    tt[3] = (num << 24) >>> 24;
+    str = String(tt[0]) + "." + String(tt[1]) + "." + String(tt[2]) + "." + String(tt[3]);
+    return str;
+}
+
+function scanips(ip1,ip2){
+    var ipInt1 = ip2int(ip1);
+    var ipInt2 = ip2int(ip2);
+    for(var i = ipInt1;i <= ipInt2;i++){
+        scanSigelip(int2iP(i));
+    }
+}
+
+</script>
+{% endblock %}

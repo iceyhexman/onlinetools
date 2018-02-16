@@ -79,6 +79,11 @@ def search():
     return render_template('/search.html', title='搜索')
 
 
+@app.route('/portscan')
+def portcan():
+    return render_template('/portscan.html', title='端口扫描')
+
+
 '''
 
 api定义段
@@ -516,3 +521,19 @@ def cms_api():
         cmsexp_poc_result = "[-]no vuln"
         cmsexp_poc_status = 0
     return jsonify({"status": cmsexp_poc_status, "pocresult": cmsexp_poc_result})
+
+
+# 端口扫描
+@app.route('/api/portscan', methods=['post'])
+def portsan_api():
+    ip_port_json = getjson()
+    ip = ip_port_json["ip"]
+    port = ip_port_json["port"]
+    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sk.settimeout(1)
+    try:
+        sk.connect((ip, port))
+        return jsonify({"ip": ip, "port": port, "status": 1})
+    except Exception:
+        return jsonify({"ip": ip, "port": port, "status": 0})
+
