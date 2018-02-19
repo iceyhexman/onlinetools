@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 
 def getjson():
-    return json.loads(request.get_data())
+    return json.loads(request.get_data().decode("utf-8"))
 
 
 @app.route('/')
