@@ -3,7 +3,7 @@
 
 现在已经包含的功能有：
 
-在线cms识别|旁站|c段|信息泄露|工控|系统|物联网安全|cms漏洞扫描
+在线cms识别|旁站|c段|信息泄露|工控|系统|物联网安全|cms漏洞扫描|端口扫描
 
 
 
@@ -11,12 +11,13 @@
 # 依赖安装
     pip install -r requirements.txt
 
-#使用方法
+# 使用方法
+
     python3 main.py
 
 浏览器打开
 
-    http://localhost:5000/
+    http://localhost:8000/
 
 
 # 说明
