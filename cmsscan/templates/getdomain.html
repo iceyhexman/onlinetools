@@ -33,7 +33,7 @@
 					<div class="panel-heading" id="result">
 						结果：
 					</div>
-                    <table class="table table-hover">
+                    <table class="table table-hover" >
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -106,6 +106,8 @@ function furl2ip(url){
 
 $(function() {
     $("#pang").click(function() {
+        add_res=""
+        $("#t_body").html("")
         if(ip){
             $("#result").html("结果：  "+ip)
             request(ip)
@@ -115,6 +117,8 @@ $(function() {
     });
 
     $("#cadd").click(function() {
+        add_res=""
+        $("#t_body").html("")
         var arr = ip.split(".");
         if(ip){
             $("#result").html("结果：  "+ip)
