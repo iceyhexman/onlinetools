@@ -35,12 +35,13 @@
 ![pang](/img/pang.png)
 ![industrial](/img/industrial.png)
 ![system](/img/system.png)
-![js](/img/jsfuck.png)
 ![search](/img/search.png)
 ![hardware](/img/hardware.png)
 ![information](/img/information.png)
 
-
+# demo
+http://tools.hexlt.org/
   
 # bug
 Blog:https://www.hexlt.org
+
