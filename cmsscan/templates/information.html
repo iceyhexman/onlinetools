@@ -41,16 +41,7 @@
 <script type="text/javascript">
     var informationapi="/api/information";
     var url="";
-    informationpocdict = [
-            "options方法开启",
-            "git源码泄露",
-            "java配置文件文件发现",
-            "robots文件发现",
-            "svn源码泄露",
-            "JetBrains IDE workspace.xml文件泄露",
-            "apache server-status信息泄露",
-            "crossdomain.xml文件发现"
-    ]
+    informationpocdict = {{data}}
 
 function request(url,type){
     $.post(informationapi,JSON.stringify({"url":url,"type":type}),function (results){

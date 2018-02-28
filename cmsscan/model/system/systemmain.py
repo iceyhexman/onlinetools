@@ -19,6 +19,7 @@ from .goahead.goahead_LD_PRELOAD_rce import goahead_LD_PRELOAD_rce_BaseVerify
 from .topsec.topsec_change_lan_filedownload import topsec_change_lan_filedownload_BaseVerify
 
 #tomcat vulns
+from .tomcat.tomcat_weak_pass import tomcat_weak_pass_BaseVerify
 from .tomcat.tomcat_put_exec import tomcat_put_exec_BaseVerify
 
 #redis vulns
@@ -35,6 +36,7 @@ from .turbomail.turbomail_conf import turbomail_conf_BaseVerify
 from .turbomail.turbogate_services_xxe import turbogate_services_xxe_BaseVerify
 
 #weblogic vulns
+from .weblogic.weblogic_weak_pass import weblogic_weak_pass_BaseVerify
 from .weblogic.weblogic_ssrf import weblogic_ssrf_BaseVerify
 from .weblogic.weblogic_xmldecoder_exec import weblogic_xmldecoder_exec_BaseVerify
 from .weblogic.weblogic_interface_disclosure import weblogic_interface_disclosure_BaseVerify

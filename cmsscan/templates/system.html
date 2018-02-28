@@ -41,45 +41,7 @@
 <script type="text/javascript">
     var systemapi="/api/system";
     var url="";
-    systempocdict = [
-            "CouchDB 未授权漏洞",
-"zookeeper 未授权漏洞",
-"GoAhead LD_PRELOAD远程代码执行(CVE-2017-17562)",
-"天融信Topsec change_lan.php本地文件包含",
-"Tomcat代码执行漏洞(CVE-2017-12616)",
-"redis 未授权漏洞",
-"KingGate防火墙默认配置不当可被远控",
-"nginx Multi-FastCGI Code Execution",
-"TurboMail设计缺陷以及默认配置漏洞",
-"TurboGate邮件网关XXE漏洞",
-"weblogic SSRF漏洞(CVE-2014-4210)",
-"weblogic XMLdecoder反序列化漏洞(CVE-2017-10271)",
-"weblogic 接口泄露",
-"实易DNS管理系统文件包含至远程代码执行",
-"hudson源代码泄露漏洞",
-"N点虚拟主机管理系统V1.9.6版数据库下载漏洞",
-"宏杰Zkeys虚拟主机默认数据库漏洞",
-"江南科友堡垒机信息泄露",
-"Moxa OnCell 未授权访问",
-"glassfish 任意文件读取",
-"zabbix jsrpc.php SQL注入",
-"php fastcgi任意文件读取漏洞",
-"php expose_php模块开启",
-"hfs rejetto 远程代码执行",
-"shellshock漏洞",
-"dorado默认口令漏洞",
-"ms15_034 http.sys远程代码执行(CVE-2015-1635)",
-"IIS 6.0 webdav远程代码执行漏洞(CVE-2017-7269)",
-"深澜软件srun3000计费系统任意文件下载漏洞",
-"深澜软件srun3000计费系统rad_online.php命令执行bypass",
-"深澜软件srun3000计费系统rad_online.php参数username命令执行",
-"深澜软件srun3000计费系统download.php任意文件下载",
-"深澜软件srun3000计费系统user_info.php命令执行",
-"intel AMT web系统绕过登录(CVE-2017-5689)",
-"smtp starttls明文命令注入(CVE-2011-0411)",
-"resin viewfile 任意文件读取",
-"mongodb 未授权漏洞",
-"深信服 AD4.5版本下命令执行漏洞"]
+    systempocdict = {{data}}
 
 function request(url,type){
     $.post(systemapi,JSON.stringify({"url":url,"type":type}),function (results){

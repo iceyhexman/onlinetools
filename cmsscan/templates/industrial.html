@@ -41,16 +41,7 @@
 <script type="text/javascript">
     var industrialapi="/api/industrial";
     var url="";
-    industrialpocdict = [
-            "新力热电无线抄表监控系统绕过后台登录",
-"火力发电能耗监测弱口令",
-"sgc8000 大型旋转机监控系统报警短信模块泄露",
-"sgc8000 监控系统数据连接信息泄露",
-"sgc8000监控系统超管账号泄露漏洞",
-"zte 无线控制器 SQL注入",
-"中兴无线控制器弱口令",
-"东方电子SCADA通用系统信息泄露",
-    ]
+    industrialpocdict = {{data}}
 
 function request(url,type){
     $.post(industrialapi,JSON.stringify({"url":url,"type":type}),function (results){
