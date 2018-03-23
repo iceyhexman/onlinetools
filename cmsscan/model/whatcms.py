@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+
 class gwhatweb:
     def __init__(self,url):
         self.url = url
@@ -13,7 +14,10 @@ class gwhatweb:
         cocokies = {'saeut': 'CkMPHlqbqdBQWl9NBG+uAg=='}
         new_url = self.url.strip('/').replace('http://','').replace('https://','')
         data = {'url': new_url, 'hash': '0eca8914342fc63f5a2ef5246b7a3b14_7289fd8cf7f420f594ac165e475f1479'}
-        content = json.loads(requests.post(url,headers=headers,data=data).content)
+        content = json.loads(requests.post(url,headers=headers,data=data).text)
         end = time.clock()
         self.time = end - start
-        return {'total':1424,'url':self.url,'result':content['cms'],'time':'%.3f s' % self.time}
+        if content['cms']:
+            return {'total':1424,'url':self.url,'result':content['cms'],'time':'%.3f s' % self.time}
+        else:
+            return {'total':1424,'url':self.url,'result':'未知CMS','time':'%.3f s' % self.time}
