@@ -43,10 +43,8 @@
 # demo
 http://tools.hexlt.org/
 
-由于部署的问题，demo版cms识别现在是GG的...本地没问题，我过几天稍微改改看看
+求别滥用就行
 
-端口扫描一次端口数目不要超过300个，并发过多会被ban..
-  
 # bug
 Blog:https://www.hexlt.org
 
