@@ -6,5 +6,7 @@ monkey.patch_all()
 
 
 if __name__ == '__main__':
-    http_server = WSGIServer(('', 8000), app)
+    port=8000
+    print("scanner is running,link:http://localhost:%d"% port)
+    http_server = WSGIServer(('', port), app)
     http_server.serve_forever()
