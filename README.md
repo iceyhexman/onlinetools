@@ -45,6 +45,12 @@ http://tools.hexlt.org/
 
 求别滥用就行
 
-# bug
-Blog:https://www.hexlt.org
+# bug & 下一版本
+
+有什么建议或者要修改的地方请直接提issue就行
+懒癌犯了好几个月了...
+下一版本最主要的变化应该是插件中心吧..各位dalao欢迎提poc(`・ω・´)
+
+
+
 
