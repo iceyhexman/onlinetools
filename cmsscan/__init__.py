@@ -81,13 +81,6 @@ def search():
 def portcan():
     return render_template('/portscan.html', title='端口扫描')
 
-@app.route('/struts')
-def struts():
-    return render_template('struts-scan.html',title='struts漏洞扫描')
-
-
-
-
 
 
 '''
@@ -219,10 +212,4 @@ def portsan_api():
     except Exception:
         return jsonify({"ip": ip, "port": port, "status": 0})
 
-
-# struts 漏洞
-
-@app.route("/api/struts",methods=['post'])
-def struts_api():
-    pass
 
