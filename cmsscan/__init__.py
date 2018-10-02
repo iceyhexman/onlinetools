@@ -7,6 +7,8 @@ import requests
 import json
 import socket
 from .pocdata import *
+from .plugins import *
+
 
 app = Flask(__name__)
 
@@ -77,15 +79,14 @@ def search():
     return render_template('/search.html', title='搜索',data=dicts)
 
 
-@app.route('/portscan')
-def portcan():
-    return render_template('/portscan.html', title='端口扫描')
 
-@app.route('/struts')
-def struts():
-    return render_template('struts-scan.html',title='struts漏洞扫描')
+@app.route('/test')
+def websockettest():
+    return render_template('websocket.html',title='websocket')
 
-
+@app.route('/subdomain')
+def subdomain():
+    return render_template('subdomain.html',title='子域名获取')
 
 
 
@@ -205,24 +206,8 @@ def cms_api():
     return jsonify({"status": cmsexp_poc_status, "pocresult": cmsexp_poc_result})
 
 
-# 端口扫描
-@app.route('/api/portscan', methods=['post'])
-def portsan_api():
-    ip_port_json = getjson()
-    ip = ip_port_json["ip"]
-    port = ip_port_json["port"]
-    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sk.settimeout(1)
-    try:
-        sk.connect((ip, port))
-        return jsonify({"ip": ip, "port": port, "status": 1})
-    except Exception:
-        return jsonify({"ip": ip, "port": port, "status": 0})
 
-
-# struts 漏洞
-
-@app.route("/api/struts",methods=['post'])
-def struts_api():
-    pass
-
+@app.route('/api/subdomain',methods=['post'])
+def subdomain_api():
+    domain_json=getjson()
+    return requests.get("http://ce.baidu.com/index/getRelatedSites?site_address={domain}".format(domain=domain_json['domain'])).text

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-wrap">
+				子域名获取
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="input-group input-group-lg">
+				<input type="text" id="domain" class="form-control" aria-label="..." name="domain">
+				<div class="input-group-btn">
+					<button type="button" id="searchsubdomain" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>查询</b></button>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="row main-panel">
+        <div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="colo" class="panel panel-primary">
+                    <div class="panel-heading" id="ti">提示：<a href="#" id="download" class="btn btn-success hidden" download="result.txt">导出</a></div>
+                        <div class="panel-body" id="notice" style="word-wrap:break-word; word-break:break-all;display:block">
+						    百度云观测接口，不怎么准，大站有些用。。。
+					    </div>
+                    <table class="table table-hover hidden" id="resultTable">
+                        <thead>
+                            <tr>
+                                <th>域名</th>
+                                <th>优先级</th>
+                            </tr>
+                        </thead>
+                    <tbody id="t_body">
+                    <!--output-->
+                    </tbody>
+                    </table>
+                </div>
+			</div>
+    </div>
+    <div class="row">
+		<div class="col-md-10">
+			<div class="text-wrap">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+subdomainapi="/api/subdomain"
+table=$('#resultTable')
+output=""
+function request(domain){
+    $.post(subdomainapi,JSON.stringify({"domain":domain}),function (results){
+    	if(results.data.length !=0){
+    	    add_res=""
+    	    output=""
+    	    $('#notice').hide()
+    	    $("#colo").removeClass("panel-danger").addClass("panel-primary")
+    	    table.removeClass("hidden")
+    	    for(var i in results.data){
+                add_res+="<tr><td>"+results.data[i].domain+"</td><td>"+results.data[i].score+"</td></tr>";
+                output+=results.data[i].domain+"\r\n"
+            }
+    		$("#t_body").html(add_res)
+    		$('#download').removeClass("hidden")
+    		$('#download').attr("href","data:text/plain;base64,"+btoa(output))
+    	}else{
+    	    $('#download').addClass('hidden')
+            $('#notice').show()
+    	    table.addClass('hidden')
+    	    $('#colo').removeClass('panel-primary').addClass('panel-danger')
+    		$('#notice').text('未发现结果')
+    	}
+    },"json");
+}
+
+
+$(function() {
+    $('#searchsubdomain').click(function() {
+            request($("#domain").val())
+    });
+});
+</script>
+{% endblock %}

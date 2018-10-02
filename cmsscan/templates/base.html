@@ -7,9 +7,9 @@
     {% else %}
     <title>Hexman的工具箱</title>
     {% endif %}
-    <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script language="javascript" type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .footuper{position:relative;bottom:-10px;}
         .navbar-default{background-color:#e5e5e5;}
@@ -46,6 +46,18 @@
                 </ul>
       </li>
       <li><a href="/portscan">端口扫描</a></li>
+      <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    插件扫描
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/subdomain">子域名查询</a></li>
+                    <li><a href="#">nmap(待续)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">插件中心（待完成）</a></li>
+                </ul>
+      </li>
   </ul>
 </div>
 

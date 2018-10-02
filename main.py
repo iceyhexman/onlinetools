@@ -1,8 +1,9 @@
-from cmsscan import app
-from cmsscan import config
 from gevent import monkey
 from gevent.pywsgi import WSGIServer
 monkey.patch_all()
+from cmsscan import app
+from cmsscan import config
+
 
 
 if __name__ == '__main__':
