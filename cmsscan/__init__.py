@@ -78,8 +78,6 @@ def search():
     dicts={"cms": Markup(list(cmspocdict.keys())), "industrial": Markup(list(industrialpocdict.keys())), "hardware": Markup(list(hardwarepocdict.keys())),"information": Markup(list(informationpocdict.keys())),"system": Markup(list(systempocdict.keys()))}
     return render_template('/search.html', title='搜索',data=dicts)
 
-
-
 @app.route('/test')
 def websockettest():
     return render_template('websocket.html',title='websocket')
@@ -205,9 +203,8 @@ def cms_api():
         cmsexp_poc_status = 0
     return jsonify({"status": cmsexp_poc_status, "pocresult": cmsexp_poc_result})
 
-
-
 @app.route('/api/subdomain',methods=['post'])
 def subdomain_api():
     domain_json=getjson()
     return requests.get("http://ce.baidu.com/index/getRelatedSites?site_address={domain}".format(domain=domain_json['domain'])).text
+
