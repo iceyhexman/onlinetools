@@ -27,7 +27,7 @@
 [POC](./poc.md)
 
 
-# 运行截图
+# 运行截图 （部分）
 
 ![cmsreg](/img/cms.png)
 ![cmsvuln](/img/cmsaq.png)
