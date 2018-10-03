@@ -86,8 +86,9 @@ def websockettest():
 def subdomain():
     return render_template('subdomain.html',title='子域名获取')
 
-
-
+@app.route('/nmap')
+def nmap():
+    return render_template('nmap.html',title='nmap扫描')
 
 '''
 
@@ -208,3 +209,7 @@ def subdomain_api():
     domain_json=getjson()
     return requests.get("http://ce.baidu.com/index/getRelatedSites?site_address={domain}".format(domain=domain_json['domain'])).text
 
+@app.route('/api/nmap',methods=['post'])
+def nmap_api():
+    target_json=getjson()
+    return jsonify({'data':requests.get("https://api.hackertarget.com/nmap/?q={target}".format(target=target_json['target'].replace("http:","").replace("https:","").replace("/",""))).text})
