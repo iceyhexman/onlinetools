@@ -13,10 +13,16 @@
     pip3 install -r requirements.txt
     nohup python3 main.py &
 
+# Docker 部署
+
+    git clone https://github.com/iceyhexman/onlinetools.git
+    cd onlinetools
+    docker build -t onlinetools .
+    docker run -d -p 8000:8000 onlinetools
+
 浏览器打开
 
     http://localhost:8000/
-
 
 # 说明
 1.漏洞poc来自开源项目AngelSword，共320个，在此表示感谢
