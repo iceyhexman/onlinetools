@@ -6,4 +6,3 @@ redis
 pexpect
 pymysql
 pymongo
-flask_socketio
