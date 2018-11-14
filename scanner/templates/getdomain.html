@@ -86,6 +86,7 @@ function request(ip,all){
 
 function req(url,type){
     jindu=0
+    daochu=""
     if(type==1){
         $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
             ip=data[0].ip

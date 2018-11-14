@@ -5,7 +5,7 @@ import requests
 import socket
 import json
 from flask import Blueprint
-import flask_login
+# import flask_login
 from .pluginloader import *
 app = Flask(__name__)
 app.config.update(DEBUG=True)
