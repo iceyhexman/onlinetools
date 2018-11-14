@@ -1,4 +1,4 @@
-from ..app import app,json,requests,request,make_response,socket,jsonify,Blueprint,plugins
+from ..app import json,requests,request,make_response,socket,jsonify,Blueprint,plugins
 
 api = Blueprint('api', __name__)
 
@@ -13,15 +13,6 @@ def query_c():
     return request_json_raw.content
 
 
-# 结果下载
-@api.route('/download', methods=['POST'])
-def download_file():
-    content = request.form.get("save")
-    response = make_response(content.replace("|", "\n"))
-    response.headers['Content-Disposition'] = 'attachment; filename=data.txt'
-    return response
-
-
 # domain2ip
 @api.route('/domain2ip', methods=['POST'])
 def return_json():
@@ -30,13 +21,6 @@ def return_json():
     j_ip = [{"ip": ip}]
     return jsonify(j_ip)
 
-
-# thread_start
-@api.route('/thread', methods=['post'])
-def thread_start():
-    thread_ip = getjson()
-    thread_json_raw = requests.get('http://webscan.cc/thread.php?ip=%s' % thread_ip[0]['ip'])
-    return thread_json_raw.content
 
 
 # 信息泄露

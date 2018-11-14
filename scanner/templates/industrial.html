@@ -42,13 +42,17 @@
     var industrialapi="/api/industrial";
     var url="";
     industrialpocdict = {{data}}
+    jindu=0
 
 function request(url,type){
     $.post(industrialapi,JSON.stringify({"url":url,"type":type}),function (results){
+    	jindu+=1
+        $("#result").html("已完成           "+toPercent(jindu/industrialpocdict.length))
     	if(results.status){
-    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		$('#poc_'+type).remove()
+    		$('<ul class="list-group" id="poc_'+type+'"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
     		industrialpocdict[type]+'</span></li><li class="list-group-item"><span class="text-success">'+
-    		results.pocresult+'</span></li>')
+    		results.pocresult+'</span></li></ul>').insertBefore("#poc_0")
     	}else{
     		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
     		industrialpocdict[type]+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
@@ -57,15 +61,6 @@ function request(url,type){
     },"json");
 }
 
-function urlcheck(){
-        url=$('#url').val();
-        if(url == '') {
-            alert('请输入域名');
-            return false;
-        }else{
-            return true;
-        }
-}
 
 $(function() {
     $('#industrial').click(function() {

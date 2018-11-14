@@ -69,9 +69,10 @@ function inputcheck(){
 function request(url,type,apipath,id,pocname){
     $.post(apipath,JSON.stringify({"url":url,"type":type}),function (results){
     	if(results.status){
-    		$("#"+id).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
+    		$('#'+id).remove()
+    		$('#result').after('<ul class="list-group" id="'+id+'"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
     		pocname+'</span></li><li class="list-group-item"><span class="text-success">'+
-    		results.pocresult+'</span></li>')
+    		results.pocresult+'</span></li></ul>')
     	}else{
     		$("#"+id).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
     		pocname+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+

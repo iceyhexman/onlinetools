@@ -15,10 +15,9 @@
                 <input type="hidden" id="ip" class="form-control" aria-label="..." name="ip">
                 <br>
                 <center>
-                    <button type="button" id="domain2ip" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>获取IP</b></button>
                 &nbsp;&nbsp;<button type="button" id="pang" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>旁站</b></button>
 			    &nbsp;&nbsp;<button type="button" id="cadd" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>C段</b></button>
-                &nbsp;&nbsp;<button type="button" id="daochu" class="btn btn-info btn-lg " aria-haspopup="true" aria-expanded="false"><b>导出</b></button>
+                &nbsp;&nbsp;<a href="" id="download" class="btn btn-info btn-lg" download="result.txt"><b>导出</b></a>
                 </center>
             </div>
 		</div>
@@ -36,8 +35,8 @@
                     <table class="table table-hover" >
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>网址</th>
+                                <th>标题</th>
                             </tr>
                         </thead>
                     <tbody id="t_body">
@@ -58,25 +57,24 @@
     <script type="text/javascript">
     var url2ip="/api/domain2ip";
     var query="/api/query";
-    var save="/api/download";
-    var thread="/api/thread";
     var url="";
     var ip="";
     var daochu="";
+    jindu=0
     add_res="";
 
-function request(ip){
+function request(ip,all){
     $.post(query,JSON.stringify([{"ip":ip}]),function (results){
+        jindu+=1
+        $("#result").html("获取中：   已完成:"+toPercent(jindu/all))
         if(results){
             lengths=results.length;
             add_res+="<tr><td>ip:  "+ip+"</td></tr>";
-
             for(var i in results){
-                add_res+="<tr><td>"+i+"</td><td>"+results[i].domain+"</td></tr>";
-                daochu+=results[i].domain+"|"
+                add_res="<tr><td><a href='"+results[i].domain+"'>"+results[i].domain+"</a></td><td>"+results[i].title+"</td></tr>"+add_res;
+                daochu+=results[i].domain+"\r\n"
                 $("#t_body").html(add_res);
             }
-
         }else{
             add_res+="<tr><td>ip:"+ip+", 结果为 0</td></tr>";
             $("#t_body").html(add_res);
@@ -84,22 +82,34 @@ function request(ip){
     },"json");
 }
 
-function urlcheck(){
-        url=$("#url").val();
-        if(url == "") {
-            alert("请输入ip或者域名");
-            return false;
-        }else{
-            return true;
-        }
-}
 
 
-function furl2ip(url){
-    $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
+function req(url,type){
+    jindu=0
+    if(type==1){
+        $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
             ip=data[0].ip
-            $("#result").html("结果：  "+ip)
+            if(ip){
+                request(ip,1)
+            }else{
+                alert("获取ip失败")
+            }
         },"json");
+    }else{
+        $.post(url2ip,JSON.stringify([{"domain":url}]),function(data){
+            ip=data[0].ip
+            var arr = ip.split(".");
+            if(ip){
+                for(var count=1;count<255;count++){
+                        var ips = arr[0] + "." + arr[1] + "." + arr[2] + "." + count;
+                        request(ips,253)
+                }
+            }else{
+                alert("获取ip失败");
+            }
+        },"json");
+    }
+
 }
 
 
@@ -107,46 +117,23 @@ $(function() {
     $("#pang").click(function() {
         add_res=""
         $("#t_body").html("")
-        if(ip){
-            $("#result").html("结果：  "+ip)
-            request(ip)
-        }else{
-            alert("请先获取ip")
+        var url=$("#url").val();
+        if(urlcheck()){
+            req(url,1)
         }
     });
 
     $("#cadd").click(function() {
         add_res=""
         $("#t_body").html("")
-        var arr = ip.split(".");
-        if(ip){
-            $("#result").html("结果：  "+ip)
-            $.post(thread,JSON.stringify([{"ip":ip}]),function(data){
-                if(data){
-                    for(var count=1;count<255;count++){
-                        var ips = arr[0] + "." + arr[1] + "." + arr[2] + "." + count;
-                        $("#result").html("获取：  "+ips)
-                        request(ips)
-                    }
-                }
-            },"json");
-        }else{
-            alert("请先获取ip");
-        }
-    });
-
-    $("#daochu").click(function(){
-        daochu=daochu.substring(0,daochu.length-1);
-        $("#save").val(daochu)
-        $("#saveform").submit();
-    });
-
-    $("#domain2ip").click(function(){
-        add_res="";
         var url=$("#url").val();
         if(urlcheck()){
-            furl2ip(url)
+            req(url,0)
         }
+    });
+
+    $("#download").click(function(){
+        $('#download').attr("href","data:text/plain;base64,"+btoa(daochu))
     });
 });
 

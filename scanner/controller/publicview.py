@@ -1,5 +1,7 @@
-from ..app import app,render_template,request,re,Markup,plugins
+from ..app import app,render_template,request,re,Markup,plugins,session
 from ..plugins.whatcms import gwhatweb
+from ..orm import db_session
+from ..model.user import User
 
 @app.route('/')
 @app.route('/index')
@@ -73,3 +75,26 @@ def subdomain():
 @app.route('/nmap')
 def nmap():
     return render_template('nmap.html',title='nmap扫描')
+
+
+@app.route('/login',methods=['get','post'])
+def login():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('login.html',data={"type":1})
+
+@app.route('/reg',methods=['get','post'])
+def reg():
+    if request.method == 'POST':
+        username=request.form.get("username")
+        password=request.form.get("password")
+        User(username,password).commit()
+        render_template("login.html",msg="注册成功",data={"type":1})
+    else:
+        return render_template('login.html',data={"type":0})
+
+# 会话控制
+@app.teardown_request
+def shutdown_session(exception=None):
+    db_session.remove()

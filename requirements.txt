@@ -6,3 +6,4 @@ redis
 pexpect
 pymysql
 pymongo
+flask_login

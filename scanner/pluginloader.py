@@ -4,6 +4,7 @@ from .plugins.hardware.hardwaremain import *
 from .plugins.system.systemmain import *
 from .plugins.cms.cmsmain import *
 
+
 class pluginMain:
     def __init__(self):
         self.angelsword={

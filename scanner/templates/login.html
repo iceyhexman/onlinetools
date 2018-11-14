@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-Up/Login Form</title>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="https://lib.baomitu.com/normalize/5.0.0/normalize.min.css" rel="stylesheet">
+
+
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+  <div class="form">
+
+      <ul class="tab-group">
+        <li class="tab active"><a href="#signupupup">Sign Up</a></li>
+        <li class="tab"><a id="alog" href="#logininin">Log In</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="signupupup">
+          <h1>Sign Up</h1>
+
+          <form action="/reg" method="post">
+
+          <div class="field-wrap">
+            <label>
+              Name<span class="req">*</span>
+            </label>
+            <input type="text" name="username" required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password" name="password" required autocomplete="off"/>
+          </div>
+
+          <button type="submit" class="button button-block"/>Get Started</button>
+
+          </form>
+
+        </div>
+
+        <div id="logininin">
+          <h1>Welcome Back!</h1>
+
+          <form action="/login" method="post">
+
+            <div class="field-wrap">
+            <label>
+              username<span class="req">*</span>
+            </label>
+            <input type="text" name="name" required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password" name="password" required autocomplete="off"/>
+          </div>
+
+          <p class="forgot"><a href="#" onclick="alert('please reg a new one')">Forgot Password?</a></p>
+
+          <button class="button button-block"/>Log In</button>
+
+          </form>
+
+        </div>
+
+      </div><!-- tab-content -->
+
+</div> <!-- /form -->
+    <script  src="{{ url_for('static',filename='js/index.js') }}"></script>
+  <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/layer/3.1.1/layer.js"></script>
+<script>
+{% if msg %}
+    layer.alert({{msg}}, {
+    	skin: 'layui-layer-molv'
+    	,closeBtn: 0
+	});
+{% endif %}
+</script>
+<script>
+  list=["#signupupup","#logininin"]
+  if({{data.type}}){
+    $("#alog").click()
+  }
+
+</script>
+</body>
+
+</html>
