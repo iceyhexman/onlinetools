@@ -47,7 +47,8 @@
 function request(url,type){
     $.post(informationapi,JSON.stringify({"url":url,"type":type}),function (results){
     	jindu+=1
-        $("#result").html("已完成           "+toPercent(jindu/informationpocdict.length))
+        $("#result").html("当前检测:  "+informationpocdict[type]+"         扫描进度      "+toPercent(jindu/informationpocdict.length))
+        if (toPercent(jindu/informationpocdict.length) == "100.0%"){$("#result").html("扫描完成           "+toPercent(jindu/informationpocdict.length))}
     	if(results.status){
     		$('#poc_'+type).remove()
     		$('<ul class="list-group" id="poc_'+type+'"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
