@@ -27,8 +27,6 @@ class gwhatweb:
     
     def getresult(self,url):
         response = requests.get(url,verify=False)
-        #上面的代码可以随意发挥,只要获取到response即可
-        #下面的代码您无需改变，直接使用即可
         whatweb_dict = {"url":response.url,"text":response.text,"headers":dict(response.headers)}
         whatweb_dict = json.dumps(whatweb_dict)
         whatweb_dict = whatweb_dict.encode()
