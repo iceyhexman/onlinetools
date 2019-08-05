@@ -1,6 +1,9 @@
+#coding=utf-8
 import requests
 import json
 import time
+import zlib
+
 
 class gwhatweb:
     def __init__(self,url):
@@ -8,16 +11,28 @@ class gwhatweb:
         self.time=0
 
     def whatweb(self):
-        url = 'http://whatweb.bugscaner.com/what/'
         start = time.clock()
-        headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0','Referer':'http://whatweb.bugscaner.com/look/'}
-        cocokies = {'saeut': 'CkMPHlqbqdBQWl9NBG+uAg=='}
-        new_url = self.url.strip('/').replace('http://','').replace('https://','')
-        data = {'url': new_url, 'hash': '0eca8914342fc63f5a2ef5246b7a3b14_7289fd8cf7f420f594ac165e475f1479'}
-        content = json.loads(requests.post(url,headers=headers,data=data).text)
+        contentraw=self.getresult(self.url)
+        count=contentraw.headers["X-RateLimit-Remaining"]
+        content=contentraw.json()
         end = time.clock()
         self.time = end - start
-        if content['cms']:
-            return {'total':1424,'url':self.url,'result':content['cms'],'time':'%.3f s' % self.time}
+        if content['CMS']:
+            try:
+                return {'total':count,'url':self.url,'result':"CMS: "+content['CMS'][0]+",Programming Languages:"+content['Programming Languages'][0]+",JavaScript Frameworks: "+content['JavaScript Frameworks'][0]+",Web Servers: "+content["Web Servers"][0]+",CDN:"+content["CDN"][0],'time':'%.3f s' % self.time}
+            except:
+                return {'total':count,'url':self.url,'result':content['CMS'][0],'time':'%.3f s' % self.time}
         else:
-            return {'total':1424,'url':self.url,'result':'未知CMS','time':'%.3f s' % self.time}
+            return {'total':count,'url':self.url,'result':'未知CMS','time':'%.3f s' % self.time}
+    
+    def getresult(self,url):
+        response = requests.get(url,verify=False)
+        #上面的代码可以随意发挥,只要获取到response即可
+        #下面的代码您无需改变，直接使用即可
+        whatweb_dict = {"url":response.url,"text":response.text,"headers":dict(response.headers)}
+        whatweb_dict = json.dumps(whatweb_dict)
+        whatweb_dict = whatweb_dict.encode()
+        whatweb_dict = zlib.compress(whatweb_dict)
+        data = {"info":whatweb_dict}
+        return requests.post("http://whatweb.bugscaner.com/api.go",files=data)
+

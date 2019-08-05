@@ -1,7 +1,6 @@
 from ..app import app,render_template,request,re,Markup,plugins,session
 from ..plugins.whatcms import gwhatweb
-from ..orm import db_session
-from ..model.user import User
+
 
 @app.route('/')
 @app.route('/index')
@@ -94,7 +93,3 @@ def reg():
     else:
         return render_template('login.html',data={"type":0})
 
-# 会话控制
-@app.teardown_request
-def shutdown_session(exception=None):
-    db_session.remove()

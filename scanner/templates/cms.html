@@ -1,83 +1,86 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="main">
-    <div class="row">
-		<div class="col-md-12">
-			<div class="text-wrap">
-				CMS安全检测
-			</div>
-		</div>
-	</div>
-    <div class="row">
-		<div class="col-lg-12">
-
-			<div class="input-group input-group-lg">
-				<input type="text" id="url" class="form-control" aria-label="..." name="url">
-				<div class="input-group-btn">
-					<button type="button" id="cms" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
-				</div>
-			</div>
-		</div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-wrap">
+        CMS安全检测
+      </div>
     </div>
-    <div class="row main-panel">
-        <div class="col-md-1"></div>
-			<div class="col-md-10">
-				<div id="color" class="panel panel-primary">
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
 
-					<div class="panel-heading" id="result">
-						结果：
-					</div>
-                </div>
-            </div>
+      <div class="input-group input-group-lg">
+        <input type="text" id="url" class="form-control" aria-label="..." name="url">
+        <div class="input-group-btn">
+          <button type="button" id="cms" class="btn btn-info btn-lg search-btn" aria-haspopup="true" aria-expanded="false"><b>检测</b></button>
+        </div>
+      </div>
     </div>
-    <div class="row">
-		<div class="col-md-10">
-			<div class="text-wrap">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			</div>
-		</div>
-	</div>
+  </div>
+  <div class="row main-panel">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div id="color" class="panel panel-primary">
+
+        <div class="panel-heading" id="result">
+          结果：
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <div class="text-wrap">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
+  var cmsapi = "/api/cms";
+  var url = "";
+  cmspocdict = {{data}}
+  jindu = 0
+
+  function request(url, type) {
+    $.post(cmsapi, JSON.stringify({
+      "url": url,
+      "type": type
+    }), function(results) {
+      jindu += 1
+      $("#result").html("当前检测:  " + cmspocdict[type] + "         扫描进度      " + toPercent(jindu / cmspocdict.length))
+      if (toPercent(jindu / cmspocdict.length) == "100.0%") {
+        $("#result").html("扫描结束           " + toPercent(jindu / cmspocdict.length))
+      }
+      if (results.status) {
+        $('#poc_' + type).remove()
+        $('<ul class="list-group" id="poc_' + type + '"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>' +
+          cmspocdict[type] + '</span></li><li class="list-group-item"><span class="text-success">' +
+          results.pocresult + '</span></li></ul>').insertBefore("#poc_0")
+      } else {
+        $('#poc_' + type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>' +
+          cmspocdict[type] + '</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： ' +
+          cmspocdict[type] + '</span></li>')
+      }
+    }, "json");
+  }
 
 
-    var cmsapi="/api/cms";
-    var url="";
-    cmspocdict = {{data}}
-    jindu=0
-
-function request(url,type){
-    $.post(cmsapi,JSON.stringify({"url":url,"type":type}),function (results){
-        jindu+=1
-        $("#result").html("当前检测:  "+cmspocdict[type]+"         扫描进度      "+toPercent(jindu/cmspocdict.length))
-        if (toPercent(jindu/cmspocdict.length) == "100.0%"){$("#result").html("扫描结束           "+toPercent(jindu/cmspocdict.length))}
-    	if(results.status){
-    		$('#poc_'+type).remove()
-    		$('<ul class="list-group" id="poc_'+type+'"><li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
-    		cmspocdict[type]+'</span></li><li class="list-group-item"><span class="text-success">'+
-    		results.pocresult+'</span></li></ul>').insertBefore("#poc_0")
-    	}else{
-    		$('#poc_'+type).html('<li class="list-group-item"><span class="text-primary">[+] 正在检测========>'+
-    		cmspocdict[type]+'</span></li><li class="list-group-item"><span class="text-danger">[-]未发现异常： '+
-    		cmspocdict[type]+'</span></li>')
-    	}
-    },"json");
-}
-
-
-$(function() {
+  $(function() {
     $('#cms').click(function() {
-        if(urlcheck()){
-            jindu=0
-        	poclist='<div class="panel-heading" id="result">结果：</div>'
-        	for(var i=0;i<cmspocdict.length;i++){
-        		poclist+='<ul class="list-group" id="poc_'+i+'"><li class="list-group-item"><span class="text-primary">正在检测========>'+
-        		cmspocdict[i]+'</span></li></ul>'
-        		$('#color').html(poclist)
-        		request(url,i)
-        	}
+      if (urlcheck()) {
+        jindu = 0
+        poclist = '<div class="panel-heading" id="result">结果：</div>'
+        for (var i = 0; i < cmspocdict.length; i++) {
+          poclist += '<ul class="list-group" id="poc_' + i + '"><li class="list-group-item"><span class="text-primary">正在检测========>' +
+            cmspocdict[i] + '</span></li></ul>'
+          $('#color').html(poclist)
+          request(url, i)
         }
+      }
     });
-});
+  });
 </script>
 {% endblock %}
