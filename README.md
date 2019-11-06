@@ -3,7 +3,7 @@
 
 现在已经包含的功能有：
 
-在线cms识别|旁站|c段|信息泄露|工控|系统|物联网安全|cms漏洞扫描|nmap端口扫描|子域名获取
+在线cms识别|信息泄露|工控|系统|物联网安全|cms漏洞扫描|nmap端口扫描|子域名获取
 
 
 # 部署方法
@@ -37,7 +37,6 @@
 
 ![cmsreg](/img/cms.png)
 ![cmsvuln](/img/cmsaq.png)
-![pang](/img/pang.png)
 ![information](/img/information.png)
 ![subdomain](/img/subdomain.png)
 ![nmap](/img/nmap.png)
