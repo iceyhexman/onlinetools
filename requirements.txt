@@ -1,4 +1,4 @@
-gevent==1.3.6
+gevent
 requests==2.20.0
 bs4==0.0.1
 redis==2.10.6
