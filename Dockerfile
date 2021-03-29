@@ -22,7 +22,8 @@ RUN echo \
 CMD ["export", "http_proxy=http://xx.xx.xx.xx:7890"]
 CMD ["export", "https_proxt=http://xx.xx.xx.xx:7890"]
 CMD ["export", "all_proxt=socks5://xx.xx.xx.xx:7891"]
-RUN git clone  https://github.com/iceyhexman/onlinetools.git /onlinetools
+RUN mkdir /onlinetools
+COPY ./* /onlinetools
 WORKDIR /onlinetools
 RUN pip install -r requirements.txt && \
     rm -fr ~/.cache/pip
