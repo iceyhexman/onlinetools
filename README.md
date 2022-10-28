@@ -46,9 +46,7 @@
 
 
 # demo
-http://tools.hexlt.org/
-
-别滥用就行
+没了
 
 # bug & 下一版本
 
